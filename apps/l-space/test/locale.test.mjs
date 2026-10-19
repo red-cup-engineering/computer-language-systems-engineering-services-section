@@ -56,3 +56,16 @@ test("words are segmented as each language's readers segment them", () => {
   assert.deepEqual(words("语言科学研究", "zh-Hans"), ["语言", "科学", "研究"]);
   assert.deepEqual(words("Lakȟótiyapi wóglaka", "lkt"), ["Lakȟótiyapi", "wóglaka"]);
 });
+
+test("the edge's tag module and SignCell canonicalize every tag to one answer", async () => {
+  const edge = await import("../src/tag.mjs");
+  const data = await import("@red-cup-engineering/signcell/language");
+  for (const tag of ["cmn-Hans", "ZH-hans", "lkt", "en-us", "iw", "zh-Hant-TW", "und", "sr-Latn-RS"]) {
+    assert.equal(edge.languageTag(tag), data.languageTag(tag));
+    assert.equal(edge.scriptDirection(tag), data.baseDirection(tag));
+  }
+  for (const bad of ["", "zh-cmn-Hans", "not a tag"]) {
+    assert.throws(() => edge.languageTag(bad), TypeError);
+    assert.throws(() => data.languageTag(bad), TypeError);
+  }
+});

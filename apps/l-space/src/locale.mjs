@@ -11,7 +11,7 @@
  * lookup, then CLDR likely subtags (so `zh-CN` reaches `zh-Hans`, `zh-TW`
  * does not, and `en-GB` reaches `en`).
  */
-import { baseDirection, languageTag } from "@red-cup-engineering/signcell/language";
+import { languageTag, scriptDirection } from "./tag.mjs";
 
 /** The faces of one locale. `names` may override the CLDR autonym (e.g. a community's preferred spelling). */
 export function locale(tag, { names = {} } = {}) {
@@ -21,7 +21,7 @@ export function locale(tag, { names = {} } = {}) {
     tag: canonical,
     path: canonical.toLowerCase(),
     hreflang: canonical,
-    direction: baseDirection(canonical),
+    direction: scriptDirection(canonical),
     script: maximal.script,
     autonym: names[canonical] ?? autonym(canonical),
     ogLocale: `${maximal.language}_${maximal.region ?? "001"}`,

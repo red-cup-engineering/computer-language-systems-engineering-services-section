@@ -13,7 +13,8 @@
     "./catalog": "./src/catalog.mjs",
     "./xliff": "./src/xliff.mjs",
     "./http": "./src/http.mjs",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./tag": "./src/tag.mjs"
   },
   "files": [
     "src",

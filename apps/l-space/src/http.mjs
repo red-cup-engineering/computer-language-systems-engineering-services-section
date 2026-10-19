@@ -9,7 +9,7 @@
  * (a `lang` cookie) wins over `Accept-Language`; a response that depends on
  * either says so in `Vary`.
  */
-import { languageTag } from "@red-cup-engineering/signcell/language";
+import { languageTag } from "./tag.mjs";
 import { negotiate } from "./locale.mjs";
 
 const escapeHtml = (text) => String(text).replace(/&/gu, "&amp;").replace(/</gu, "&lt;").replace(/>/gu, "&gt;").replace(/"/gu, "&quot;");
