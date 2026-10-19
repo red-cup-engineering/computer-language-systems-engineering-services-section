@@ -24,7 +24,8 @@ export function lSpace({ source, targets = [] }) {
     const token = langString(unit.message, sourceCatalog.locale);
     const type = signatureOf(unit.message);
     if (unit.placeholders) {
-      const declared = typeCheck(declaredSignature(unit.placeholders), unit.message);
+      // ARB declares arguments only; rich-text tags are the message's own.
+      const declared = typeCheck({ ...declaredSignature(unit.placeholders), tags: type.tags }, unit.message);
       if (!declared.wellTyped) throw new TypeError(`l-space: source message ${unit.key} does not match its declared placeholders`);
     }
     return Object.freeze({
