@@ -49,6 +49,23 @@ zh.t("archive.page", { page: 2, total: 9 }); // { text: "第 2 页，共 9 页",
 report(space);                               // per-locale coverage, staleness, type errors, total sheaf energy
 ```
 
+## Tooling for translators
+
+`l-space` (scripts/l-space.mjs) works on ARB catalogs:
+
+```sh
+l-space tell   --source en.arb --target zh-Hans.arb --drafts drafts.json --by NAME --kind human|machine [--role reviewer]
+l-space report --source en.arb --policy policy.json zh-Hans.arb lkt.arb    # coverage, staleness, type errors, sheaf energy
+l-space xliff  --source en.arb --target lkt.arb --out lkt.xlf             # an XLIFF 2.0 packet for a translator or TMS
+l-space import --source en.arb --target lkt.arb --xliff lkt.xlf --by NAME  # their reviewed segments, told back as witnesses
+```
+
+Every rendering it records is bound to the current source token, so a later source edit marks it stale until it is told again.
+
+## At the edge
+
+`./locale` and `./http` canonicalize tags through `./tag` (Intl only), so a Worker can negotiate locales without bundling SignCell's content-addressing stack. A test holds `./tag` and SignCell's `./language` to one answer for every tag.
+
 ## Development
 
 Until SignCell 0.13.0 is published, the local `pnpm-workspace.yaml` (gitignored) links it from `computer-data-engineering-services-section/apps/signcell`. Run `pnpm install --lockfile=false && npm test`.
