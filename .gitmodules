@@ -1,0 +1,60 @@
+[submodule "arabic-language-corpus"]
+	path = apps/arabic-language-corpus
+	url = https://github.com/red-cup-engineering/arabic-language-corpus.git
+	branch = main
+[submodule "english-language-corpus"]
+	path = apps/english-language-corpus
+	url = https://github.com/red-cup-engineering/english-language-corpus.git
+	branch = main
+[submodule "horsetail"]
+	path = apps/horsetail
+	url = https://github.com/red-cup-engineering/horsetail.git
+	branch = main
+[submodule "lakota-language-corpus"]
+	path = apps/lakota-language-corpus
+	url = https://github.com/red-cup-engineering/lakota-language-corpus.git
+	branch = main
+[submodule "latin-language-corpus"]
+	path = apps/latin-language-corpus
+	url = https://github.com/red-cup-engineering/latin-language-corpus.git
+	branch = main
+[submodule "panini"]
+	path = apps/panini
+	url = https://github.com/red-cup-engineering/panini.git
+	branch = main
+[submodule "relation-language-corpus"]
+	path = apps/relation-language-corpus
+	url = https://github.com/red-cup-engineering/relation-language-corpus.git
+	branch = main
+[submodule "tokipona-language-corpus"]
+	path = apps/tokipona-language-corpus
+	url = https://github.com/red-cup-engineering/tokipona-language-corpus.git
+	branch = main
+[submodule "tokipona-language-algebra"]
+	path = services/tokipona-language-algebra
+	url = https://github.com/red-cup-engineering/tokipona-language-algebra.git
+	branch = main
+[submodule "mandarin-language-algebra"]
+	path = services/mandarin-language-algebra
+	url = https://github.com/red-cup-engineering/mandarin-language-algebra.git
+	branch = main
+[submodule "latin-language-algebra"]
+	path = services/latin-language-algebra
+	url = https://github.com/red-cup-engineering/latin-language-algebra.git
+	branch = main
+[submodule "language-message-runtime-service"]
+	path = services/language-message-runtime-service
+	url = https://github.com/red-cup-engineering/language-message-runtime-service.git
+	branch = main
+[submodule "lakota-language-algebra"]
+	path = services/lakota-language-algebra
+	url = https://github.com/red-cup-engineering/lakota-language-algebra.git
+	branch = main
+[submodule "english-language-algebra"]
+	path = services/english-language-algebra
+	url = https://github.com/red-cup-engineering/english-language-algebra.git
+	branch = main
+[submodule "claim-language-rendering-service"]
+	path = services/claim-language-rendering-service
+	url = https://github.com/red-cup-engineering/claim-language-rendering-service.git
+	branch = main
