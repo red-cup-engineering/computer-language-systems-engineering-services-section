@@ -4,8 +4,7 @@
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-cup-engineering/computer-systems-engineering-services-section.git",
-    "directory": "services/computer-language-systems-engineering-services-section"
+    "url": "git+https://github.com/red-cup-engineering/computer-language-systems-engineering-services-section.git"
   },
   "type": "module",
   "exports": {
