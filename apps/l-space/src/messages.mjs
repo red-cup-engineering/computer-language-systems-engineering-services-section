@@ -115,8 +115,40 @@ export function formatMessage(message, locale, values = {}) {
   return Array.isArray(result) ? result.join("") : String(result);
 }
 
+const escapeHtml = (text) => String(text).replace(/&/gu, "&amp;").replace(/</gu, "&lt;").replace(/>/gu, "&gt;").replace(/"/gu, "&quot;");
+
+/** Trusted HTML for `formatHtml`: passed through as is, never escaped. */
+export const trustedHtml = (html) => Object.freeze({ trustedHtml: String(html) });
+
+const isTrusted = (value) => value !== null && typeof value === "object" && typeof value.trustedHtml === "string";
+
 /**
- * A translator over resolved messages: `t(key, values)` returns `{ text, language }`,
+ * Format one ICU message as HTML. All message text and every plain argument
+ * are escaped, whoever wrote them (a translator's `&` or `<` stays text).
+ * Arguments wrapped in `trustedHtml` pass through. A rich-text tag
+ * `<name>…</name>` is rendered by `tags[name](innerHtml)`, which receives the
+ * escaped inner HTML and returns trusted HTML; a tag with no renderer keeps
+ * only its escaped content.
+ */
+export function formatHtml(message, locale, values = {}, tags = {}) {
+  const tag = languageTag(locale);
+  const key = `${tag}\u0000${message}`;
+  let format = compiled.get(key);
+  if (format === undefined) {
+    format = new IntlMessageFormat(message, tag);
+    compiled.set(key, format);
+  }
+  const join = (parts) => (Array.isArray(parts) ? parts : [parts]).map((part) => (isTrusted(part) ? part.trustedHtml : escapeHtml(part))).join("");
+  const signature = signatureOf(message);
+  const renderers = Object.fromEntries(signature.tags.map((name) => [name, (chunks) => trustedHtml(typeof tags[name] === "function" ? tags[name](join(chunks)) : join(chunks))]));
+  // A non-string part keeps the formatter from merging it into text, so trusted values survive as parts.
+  const parts = format.format({ ...values, ...renderers });
+  return join(parts);
+}
+
+/**
+ * A translator over resolved messages: `t(key, values)` returns `{ text, language }`
+ * and `html(key, values, tags)` returns `{ html, language }` (see `formatHtml`),
  * the language being the one the text is actually in — a key served from a
  * fallback locale says so, so a page can mark it with `lang`. `resolved` maps
  * each key to `{ message, language }` (see `catalog.resolveMessages`).
@@ -128,10 +160,17 @@ export function createTranslator(resolved, { locale } = {}) {
     if (entry === undefined) throw new RangeError(`messages: no message ${JSON.stringify(key)}`);
     return Object.freeze({ text: formatMessage(entry.message, entry.language, values), language: entry.language });
   };
+  const html = (key, values = {}, tags = {}) => {
+    const entry = resolved.get(key);
+    if (entry === undefined) throw new RangeError(`messages: no message ${JSON.stringify(key)}`);
+    return Object.freeze({ html: formatHtml(entry.message, entry.language, values, tags), language: entry.language });
+  };
   return Object.freeze({
     locale: tag,
     t: translate,
+    html,
     text: (key, values) => translate(key, values).text,
+    entry: (key) => resolved.get(key),
     has: (key) => resolved.has(key),
   });
 }

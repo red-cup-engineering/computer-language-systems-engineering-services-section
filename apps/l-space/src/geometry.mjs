@@ -8,7 +8,9 @@
  * L-space has coordinates (claim, fiber, time, type) — `point` names them.
  *
  * A *unit* is one claim and every rendering of it: the source token that
- * fixes the claim, and target legs carrying their stored evidence. A unit is
+ * fixes the claim, and target legs carrying their stored evidence. A unit
+ * whose texts are not ICU messages (a Markdown page) brings its own CHL
+ * obligation as `check(text) → { wellTyped, missing, extra, mismatched, tags }`. A unit is
  * read four ways, each its own computation:
  *
  *  - CHL (Curry–Howard–Lambek): each leg is a term that must inhabit the
@@ -58,6 +60,7 @@ const typeWitness = (check) => Object.freeze({
   role: "checker", kind: "machine", by: "l-space/chl",
   note: [
     check.error,
+    ...(check.notes ?? []),
     check.missing.length ? `missing ${check.missing.join(", ")}` : "",
     check.extra.length ? `extra ${check.extra.join(", ")}` : "",
     check.mismatched.length ? `mismatched ${check.mismatched.join(", ")}` : "",
@@ -76,7 +79,8 @@ const inTime = (at) => (witness) => at === undefined || witness.at === undefined
 function prepare(unit, { admit, at }) {
   const sourceLocale = languageOf(unit.source.token);
   if (sourceLocale === undefined) throw new TypeError("l-space: a unit's source token must be language-tagged text");
-  const type = unit.type ?? signatureOf(textOf(unit.source.token));
+  const type = unit.type ?? (unit.check ? null : signatureOf(textOf(unit.source.token)));
+  const check = unit.check ?? ((text) => typeCheck(type, text));
   const claim = claimOf(unit.key, unit.source.token);
   const sourceAddress = claim.source;
   const legs = (unit.legs ?? []).map((leg) => {
@@ -92,14 +96,14 @@ function prepare(unit, { admit, at }) {
       against: Object.freeze((evidence.against ?? []).filter(keep)),
     });
   });
-  return { sourceLocale, type, claim, sourceAddress, legs };
+  return { sourceLocale, type, check, claim, sourceAddress, legs };
 }
 
 // — CHL —
 
 /** Each leg's typing: does its text inhabit the claim's type? */
 function chlReading(prepared) {
-  return new Map(prepared.legs.map((leg) => [leg.address, typeCheck(prepared.type, textOf(leg.token))]));
+  return new Map(prepared.legs.map((leg) => [leg.address, prepared.check(textOf(leg.token))]));
 }
 
 // — light cone (A6) —
@@ -164,7 +168,7 @@ const WORST = ["contradicted", "open", "unproven", "coherent"];
 /** The cone: per fiber, the leg cells whose predicate is the apex claim, their readings, the leg chosen, and the cone's disposition. */
 function coneReading(prepared, required) {
   const cells = new Map(prepared.legs.map((leg) => {
-    const check = typeCheck(prepared.type, textOf(leg.token));
+    const check = prepared.check(textOf(leg.token));
     return [leg.address, cell(leg.token, leg.claim, leg.token, {
       for: leg.for,
       against: check.wellTyped ? leg.against : [...leg.against, typeWitness(check)],

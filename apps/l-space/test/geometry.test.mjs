@@ -162,3 +162,24 @@ test("coincidence holds on generated units and at every time slice", () => {
   }
   assert.equal(checked, 1500);
 });
+
+test("a unit may bring its own CHL obligation (a page keeps its references)", () => {
+  const page = langString("See [[sheaf]] and [@hansen2019].", "en");
+  const refs = (text) => [...text.matchAll(/\[\[([^\]]+)\]\]|\[@([^\]]+)\]/gu)].map((m) => m[1] ?? `@${m[2]}`).sort();
+  const want = refs(page["@value"]);
+  const check = (text) => {
+    const have = refs(text);
+    const missing = want.filter((ref) => !have.includes(ref));
+    const extra = have.filter((ref) => !want.includes(ref));
+    return { wellTyped: !missing.length && !extra.length, missing, extra, mismatched: [], tags: [] };
+  };
+  const address = tokenAddress(page);
+  const reading = readUnit({ key: "page:intro", source: { token: page }, check, legs: [
+    { token: langString("见 [[sheaf]] 与 [@hansen2019]。", "zh-Hans"), evidence: { source: address, for: [human("translator", "2026-10-19")] } },
+    { token: langString("[[sheaf]]", "lkt"), evidence: { source: address, for: [human("translator", "2026-10-19")] } },
+  ] }, { required: ["zh-Hans", "lkt"] });
+  assert.equal(reading.type, null);
+  assert.equal(reading.cone.legs["zh-Hans"].disposition, "coherent");
+  assert.equal(reading.cone.legs.lkt.disposition, "contradicted");
+  assert.deepEqual(reading.legs.find((leg) => leg.locale === "lkt").chl.missing, ["@hansen2019"]);
+});

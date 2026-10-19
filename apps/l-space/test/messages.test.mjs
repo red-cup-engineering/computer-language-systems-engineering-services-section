@@ -65,3 +65,17 @@ test("ARB round-trips messages, metadata, x- extensions and evidence", () => {
   assert.throws(() => parseArb({ a: "x" }), /@@locale/u);
   assert.throws(() => parseArb({ "@@locale": "en", a: 3 }), /ICU/u);
 });
+
+test("HTML formatting escapes every text and argument and renders tags from trusted renderers", async () => {
+  const { formatHtml, trustedHtml } = await import("../src/messages.mjs");
+  assert.equal(
+    formatHtml("Return to the <link>site & index</link> of {name}.", "en", { name: "<b>x</b>" }, { link: (inner) => `<a href="/">${inner}</a>` }),
+    'Return to the <a href="/">site &amp; index</a> of &lt;b&gt;x&lt;/b&gt;.',
+  );
+  assert.equal(formatHtml("First published {when} at {host}", "en", { when: trustedHtml('<time datetime="2020-09-26">26 September 2020</time>'), host: "a&b" }),
+    'First published <time datetime="2020-09-26">26 September 2020</time> at a&amp;b');
+  assert.equal(formatHtml("<em>未</em>翻译", "zh-Hans"), "未翻译", "a tag without a renderer keeps only its content");
+  assert.equal(formatHtml("{count, plural, other {# 条结果}}", "zh-Hans", { count: 3 }), "3 条结果");
+  const { html } = createTranslator(new Map([["notice", { message: "Read <link>the original</link>.", language: "en" }]]));
+  assert.deepEqual(html("notice", {}, { link: (inner) => `<a href="/x/">${inner}</a>` }), { html: 'Read <a href="/x/">the original</a>.', language: "en" });
+});
