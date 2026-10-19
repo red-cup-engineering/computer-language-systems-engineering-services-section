@@ -5,3 +5,4 @@ export { admission, claimOf, coincidence, point, readUnit, tokenAddress, worldli
 export { lSpace, readSpace, report, resolveMessages, servable, tell } from "./catalog.mjs";
 export { fromXliff, roleOfState, segmentState, toXliff } from "./xliff.mjs";
 export { alternateLinkTags, alternates, languageHeaders, linkHeader, localeOfPath, localePrefix, localeRedirect, requestLocale, sitemapXml } from "./http.mjs";
+export { baseDirection, isLangString, isLanguageTag, langString, languageOf, languageTag, textOf } from "@red-cup-engineering/signcell/language";
