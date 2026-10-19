@@ -49,6 +49,9 @@ export function signatureOf(message) {
     }
   };
   visit(ast);
+  // Tags and arguments share one namespace when formatted: a tag named like an argument would replace its value.
+  const clash = [...tags].filter((name) => name in argumentsOf);
+  if (clash.length) throw new SyntaxError(`messages: ${clash.join(", ")} names both a tag and an argument: ${JSON.stringify(message)}`);
   return Object.freeze({
     arguments: Object.freeze(Object.fromEntries(Object.entries(argumentsOf).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))),
     tags: Object.freeze([...tags].sort()),

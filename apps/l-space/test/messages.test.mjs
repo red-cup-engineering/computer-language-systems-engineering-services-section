@@ -79,3 +79,8 @@ test("HTML formatting escapes every text and argument and renders tags from trus
   const { html } = createTranslator(new Map([["notice", { message: "Read <link>the original</link>.", language: "en" }]]));
   assert.deepEqual(html("notice", {}, { link: (inner) => `<a href="/x/">${inner}</a>` }), { html: 'Read <a href="/x/">the original</a>.', language: "en" });
 });
+
+test("a tag may not share a name with an argument, since formatting would replace the value", () => {
+  assert.throws(() => signatureOf("{count, plural, other {<count>#</count> nodes}}"), /names both a tag and an argument/u);
+  assert.equal(typeCheck(signatureOf("{count, plural, other {<num>#</num> nodes}}"), "{count, plural, other {<count>#</count> 个}}").wellTyped, false);
+});
