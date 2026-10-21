@@ -55,5 +55,10 @@
     "!apps/relation-language-corpus/**",
     "!apps/tokipona-language-corpus/**",
     "data/translation-lexicons/cdrama-subtitles.json"
-  ]
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  }
 }
