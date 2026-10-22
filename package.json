@@ -60,5 +60,9 @@
   "funding": {
     "type": "individual",
     "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  },
+  "scripts": {
+    "test:source-projection": "node --test test/source-anchoring.test.mjs",
+    "test:tag-native": "node --test test/tag-native-source.test.mjs"
   }
 }
