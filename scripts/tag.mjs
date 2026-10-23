@@ -15,6 +15,7 @@ import {
   read,
   settle,
 } from "@red-cup-engineering/communicating";
+import { anchorNativeReading } from "../src/source-anchoring.mjs";
 
 /**
  * Build a language fiber's tagging surface — { bundle, tagWordPos, tokenize,
@@ -62,13 +63,20 @@ export function createTag(rawBundle, { includeRoleBy = false } = {}) {
    * the settlement engine (not a flat per-word lookup).
    */
   function tagText(text) {
+    // The source belongs to the actual communicating articulation. Neither a
+    // downstream editor nor this wrapper may guess coordinates from word text.
+    const articulatedSpans = articulateCommunication(admitCommunication(text), bundle).spans;
     const sentences = settle(text, bundle).readings.map(({ span: sentenceSpan }) => {
       const reading = read(sentenceSpan.text, bundle);
       const result = reading.parse;
+      const sourceBinding = anchorNativeReading({
+        sourceText: text, sentenceSpan, articulatedSpans, parsedWords: result.words,
+      });
       return {
         text: sentenceSpan.text,
+        ...sourceBinding,
         words: result.words.map((w) => ({ text: w.text, tags: w.tags, feats: w.feats, connected: w.connected, roles: w.roles })),
-        arcs: result.arcs.map((a) => ({ rel: a.rel, head: a.headText, dependent: a.depText, status: a.status })),
+        arcs: result.arcs.map((a) => ({ rel: a.rel, head: a.headText, dependent: a.depText, status: a.status, value: a.value })),
         roles: reading.roles,
         tower: result.tower,
         cohomology: reading.cohomology,

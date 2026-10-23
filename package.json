@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/computer-language-systems-engineering-services-section",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "@red-cup-engineering/computer-code-engineering-services-section": "0.1.2",
     "@red-cup-engineering/markdown-engineering-services-section": "0.5.2",
     "@red-cup-engineering/activitypub-services-section": "0.8.4",
-    "@red-cup-engineering/communicating": "0.1.6",
+    "@red-cup-engineering/communicating": "0.2.1",
     "@red-cup-engineering/computer-inference-engine": "0.1.2",
     "@red-cup-engineering/computer-system-engine": "0.1.2",
     "@red-cup-engineering/computer-web-server": "0.6.2",
@@ -60,5 +60,9 @@
   "funding": {
     "type": "individual",
     "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  },
+  "scripts": {
+    "test:source-projection": "node --test test/source-anchoring.test.mjs",
+    "test:tag-native": "node --test test/tag-native-source.test.mjs"
   }
 }
