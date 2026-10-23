@@ -76,7 +76,7 @@ export function createTag(rawBundle, { includeRoleBy = false } = {}) {
         text: sentenceSpan.text,
         ...sourceBinding,
         words: result.words.map((w) => ({ text: w.text, tags: w.tags, feats: w.feats, connected: w.connected, roles: w.roles })),
-        arcs: result.arcs.map((a) => ({ rel: a.rel, head: a.headText, dependent: a.depText, status: a.status })),
+        arcs: result.arcs.map((a) => ({ rel: a.rel, head: a.headText, dependent: a.depText, status: a.status, value: a.value })),
         roles: reading.roles,
         tower: result.tower,
         cohomology: reading.cohomology,

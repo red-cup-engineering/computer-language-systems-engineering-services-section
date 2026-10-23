@@ -4,9 +4,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createTag} from '../scripts/tag.mjs';
+import {read} from '@red-cup-engineering/communicating';
 import {rawBundle} from '../services/english-language-algebra/src/bundle.mjs';
 
-const {tagText}=createTag(rawBundle);
+const {tagText,bundle}=createTag(rawBundle);
 
 test('native settlement returns exact source coordinates for repeated sentences and word occurrences',()=>{
  const clause='The teacher graded the exam.';
@@ -41,4 +42,14 @@ test('native UTF-16 offsets survive an astral character before a prose sentence'
  const teacher=s.words.findIndex(w=>w.text==='teacher');
  assert.ok(teacher>=0);
  assert.equal(s.wordSourceSpans[teacher][0],source.indexOf('teacher'));
+});
+
+test('shared arcs preserve the native grammar status and FOUR reading without renaming',()=>{
+ const text='The teacher graded the exam.';
+ const native=read(text,bundle).parse.arcs;
+ assert.deepEqual(tagText(text).sentences[0].arcs,native.map(a=>({
+   rel:a.rel,head:a.headText,dependent:a.depText,status:a.status,value:a.value,
+ })));
+ assert.ok(native.length>0);
+ assert.ok(native.every(a=>a.status==='decided'&&a.value==='potential'));
 });
