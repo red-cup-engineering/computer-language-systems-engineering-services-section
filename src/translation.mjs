@@ -208,7 +208,14 @@ export async function translateNumberedBatch({ instruction, segments, format = "
       const text = textOf(result);
       const found = numberedLines(text, segments.length);
       if (found.size !== segments.length) throw new Error(`the model returned ${found.size} of ${segments.length} items`);
-      return { model, targets: segments.map((_, index) => found.get(index)), names: askNames ? namesIn(text) : [] };
+      const targets = segments.map((_, index) => found.get(index));
+      // Reuse the source's existing untranslated-Han predicate at the model
+      // boundary. A numbered echo is not delivered English; try the next
+      // available model within the already-authorized provider chain instead
+      // of accepting an unusable, potentially chargeable result.
+      if (targetLanguage === "English" && targets.some((target) => HAN.test(target)))
+        throw new Error("model left untranslated Han characters in an English target");
+      return { model, targets, names: askNames ? namesIn(text) : [] };
     } catch (error) {
       failures.push(`${model}: ${error.message}`);
     }
