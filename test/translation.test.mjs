@@ -79,3 +79,25 @@ test("name lines are read in the forms models write them", async () => {
   const result = await translateMandarinToEnglish({ text: "他是顾北辰。\n\n林晚晴，你回来了。" }, ai);
   assert.deepEqual(result.memory.entries.map((entry) => [entry.source, entry.target]), [["顾北辰", "Gu Beichen"], ["林晚晴", "Lin Wanqing"], ["顾氏集团", "Gu Group"]]);
 });
+
+test("an echoed Chinese model output is rejected and the next model supplies English", async () => {
+  const calls = [];
+  const ai = { AI: { async run(model) {
+    calls.push(model);
+    return { response: model === "@cf/zai-org/glm-4.7-flash" ? "[1] 你好" : "[1] Hello" };
+  } } };
+  const result = await translateMandarinToEnglish({ text: "你好" }, ai);
+  assert.equal(result.translation, "Hello");
+  assert.deepEqual(result.models, ["@cf/qwen/qwen3.8-27b"]);
+  assert.deepEqual(calls, ["@cf/zai-org/glm-4.7-flash", "@cf/qwen/qwen3.8-27b"]);
+});
+
+test("an all-model untranslated echo fails before a priced translation result can be delivered", async () => {
+  const calls = [];
+  const ai = { AI: { async run(model) { calls.push(model); return { response: "[1] 你好" }; } } };
+  await assert.rejects(
+    translateMandarinToEnglish({ text: "你好" }, ai),
+    /translation failed on every model.*untranslated Han characters/u,
+  );
+  assert.equal(calls.length, 2);
+});
