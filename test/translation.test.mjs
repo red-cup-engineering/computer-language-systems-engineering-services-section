@@ -27,7 +27,7 @@ test("text is translated paragraph by paragraph", async () => {
 });
 
 test("the next model is used when one fails, and a short reply is a failure", async () => {
-  const ai = fakeAi({}, { failModels: ["@cf/zai-org/glm-4.7-flash"] });
+  const ai = fakeAi({ "你好": "Hello" }, { failModels: ["@cf/zai-org/glm-4.7-flash"] });
   const result = await translateMandarinToEnglish({ text: "你好" }, { AI: ai.AI });
   assert.deepEqual(result.models, ["@cf/qwen/qwen3.8-27b"]);
   const silent = { AI: { async run() { return { response: "" }; } } };
