@@ -1,0 +1,46 @@
+{
+  "name": "@red-cup-engineering/l-space",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "L-space: the space of (token, claim) signs over language fibers. Every published string or page is a claim whose renderings in each language are SignCell legs; CHL typing, the causal light cone, chromatic-Lorentzian settling and the sheaf Laplacian read each claim, and their agreement decides what a site may serve in each language. Industry formats at the edges: BCP 47, ARB/ICU MessageFormat, XLIFF 2.0, Accept-Language, hreflang.",
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./locale": "./src/locale.mjs",
+    "./messages": "./src/messages.mjs",
+    "./arb": "./src/arb.mjs",
+    "./geometry": "./src/geometry.mjs",
+    "./catalog": "./src/catalog.mjs",
+    "./xliff": "./src/xliff.mjs",
+    "./http": "./src/http.mjs",
+    "./package.json": "./package.json",
+    "./tag": "./src/tag.mjs"
+  },
+  "files": [
+    "src",
+    "scripts",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\""
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "@formatjs/icu-messageformat-parser": "3.5.21",
+    "@red-cup-engineering/metrologic": "0.13.0",
+    "@red-cup-engineering/semiotic-content-address": "0.1.1",
+    "@red-cup-engineering/signcell": "0.13.0",
+    "@red-cup-engineering/signgraph": "0.5.0",
+    "intl-messageformat": "12.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/red-cup-engineering/computer-systems-engineering-services-section.git",
+    "directory": "services/computer-language-systems-engineering-services-section/apps/l-space"
+  },
+  "bin": {
+    "l-space": "./scripts/l-space.mjs"
+  }
+}
