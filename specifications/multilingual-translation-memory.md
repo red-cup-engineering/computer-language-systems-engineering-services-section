@@ -76,3 +76,7 @@ x402v2. Group localization stays ARB/ICU; standard translation-memory interchang
 is an independently owned format boundary, not this index's private exchange
 grammar. SVG language uses the existing XML/SVG owner and explicit Horsetail
 forms, with independent decoding/round-trip rather than an image-as-proof claim.
+
+## Stored source edition for the original merchant
+
+The merchant selects one immutable corpus object in its existing SHOP_GOODS R2 bucket. The original Word documents remain source artifacts; the derived 4101-unit corpus becomes 8202 witnessed RDF rows. Public discovery carries only the selected object key, exact byte count and SHA-256, never a corpus dump or buyer-selected source. The existing binding passes its get/arrayBuffer port to Language Systems. The body remains exactly text/sourceLanguage/targetLanguage. Read and verify a bounded complete source edition before parsing JSON; use standard edge Web Crypto. Cache at most eight source editions per storage port, keyed by key/digest/bytes, retain one rows array per edition so the pure translation-memory index is reused. Coalesce concurrent reads, evict least-recently-used editions, remove rejected reads. Missing/corrupt editions fail before settlement through the original merchant. No inference or new storage binding. The bucket owns object custody, Language Systems corpus realization, Networking payment admission, and Operations the selected immutable data/configuration.
