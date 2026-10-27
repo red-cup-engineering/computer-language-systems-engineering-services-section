@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/computer-language-systems-engineering-services-section",
-  "version": "0.1.4-dev.1",
+  "version": "0.1.4-dev.2",
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
@@ -16,7 +16,8 @@
     "./translation-evidence": "./src/translation-evidence.mjs",
     "./episode-translation": "./src/episode-translation.mjs",
     "./translation-memory": "./src/translation-memory.mjs",
-    "./stored-translation-memory": "./src/stored-translation-memory.mjs"
+    "./stored-translation-memory": "./src/stored-translation-memory.mjs",
+    "./translation-memory-tmx": "./src/translation-memory-tmx.mjs"
   },
   "keywords": [
     "engineering"
@@ -57,7 +58,9 @@
     "!apps/panini/**",
     "!apps/relation-language-corpus/**",
     "!apps/tokipona-language-corpus/**",
-    "data/translation-lexicons/cdrama-subtitles.json"
+    "data/translation-lexicons/cdrama-subtitles.json",
+    "test/translation-memory-tmx.test.mjs",
+    "test/translation-memory-tmx-boundaries.test.mjs"
   ],
   "license": "MIT",
   "funding": {
@@ -66,6 +69,11 @@
   },
   "scripts": {
     "test:source-projection": "node --test test/source-anchoring.test.mjs",
-    "test:tag-native": "node --test test/tag-native-source.test.mjs"
-  }
+    "test:tag-native": "node --test test/tag-native-source.test.mjs",
+    "test:tmx": "node --test test/translation-memory-tmx*.test.mjs"
+  },
+  "receivingTests": [
+    "test/translation-memory-tmx.test.mjs",
+    "test/translation-memory-tmx-boundaries.test.mjs"
+  ]
 }
