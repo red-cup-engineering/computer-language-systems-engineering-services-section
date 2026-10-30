@@ -33,3 +33,7 @@ English-language-algebra Git submodule and exact installed communicating
 dependencies to test genuine articulation→settlement→tagging end-to-end.
 Isolated projection tests cannot substitute for that provider-qualified
 integration or downstream receiving.
+
+## Earlier work
+
+- Restored files at `lib/legacy/2026-08-01-bcf1ab7` (restore commit bcf1ab7), from the 561-group/bare-cedar-fog history.

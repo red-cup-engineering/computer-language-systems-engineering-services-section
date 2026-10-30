@@ -1,0 +1,11 @@
+#lang rmn/v2
+(map
+  ("type" "LatinTaggingLaw")
+  ("version" 1)
+  ("provider" "urn:ame:latin-language-algebra")
+  ("precondition" "A sovereign customer supplies one immutable text string believed to be Latin, under a capability attenuated to this exact law.")
+  ("operation" "The provider deterministically tags each word against its own Latin lexicon and suffix-morphology data, producing lexicon-class and suffix-tag evidence without mutating customer territory.")
+  ("postcondition" "One ActivityStreams Accept or Reject is bound to the exact input digest, exact law, and the resulting per-word tag evidence.")
+  ("refusal" "Refuse malformed wireforms, a source text that is not a nonempty string, authority beyond the capability, or customer mutation.")
+  ("protocol" "ActivityStreams-2.0")
+  ("evidence" "WITNESS-JOURNAL-RDF"))

@@ -1,0 +1,11 @@
+#lang rmn/v2
+(map
+  ("type" "LeaderMessageParsingProcurementLaw")
+  ("version" 1)
+  ("provider" "urn:ame:leader-movement-team")
+  ("precondition" "The Leader directly addresses an immutable ActivityStreams Note to the Leader Movement Team and supplies a bounded resource grant for provider-local parsing evidence.")
+  ("operation" "The Team discovers a conforming parsing provider from its own advertisement, solicits one exact offer, accepts only that provider-authored offer, attenuates the grant to it, and receives one provider-authored result, question, or refusal.")
+  ("postcondition" "Both settlements retain their own witnessed evidence and the exact source remains inspectable. Every returned parse remains a candidate reading and is never promoted to settled Leader intent or executable authority.")
+  ("refusal" "Refuse an indirect or mutable source, missing provider advertisement, unmatched offer, excessive capability, changed source digest, concealed provider, missing evidence, or any result claiming to settle Leader intent.")
+  ("protocol" "ActivityStreams-2.0")
+  ("evidence" "WITNESS-JOURNAL-RDF"))
