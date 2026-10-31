@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/computer-language-systems-engineering-services-section",
-  "version": "0.1.4-dev.2",
+  "version": "0.1.5-dev.0",
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
@@ -35,7 +35,6 @@
     "@red-cup-engineering/computer-inference-engine": "0.1.2",
     "@red-cup-engineering/computer-system-engine": "0.1.2",
     "@red-cup-engineering/computer-web-server": "0.6.2",
-    "@red-cup-engineering/feltos": "0.20.2",
     "@red-cup-engineering/relating": "0.10.4",
     "@red-cup-engineering/computer-triplet-serialized-content-engineering-services-section": "0.1.6-dev.133"
   },
