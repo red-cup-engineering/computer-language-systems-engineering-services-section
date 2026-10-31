@@ -34,10 +34,6 @@
 	path = services/language-message-runtime-service
 	url = https://github.com/red-cup-engineering/language-message-runtime-service.git
 	branch = main
-[submodule "claim-language-rendering-service"]
-	path = services/claim-language-rendering-service
-	url = https://github.com/red-cup-engineering/claim-language-rendering-service.git
-	branch = main
 [submodule "services/english-language-engineering-services-section"]
 	path = services/english-language-engineering-services-section
 	url = https://github.com/red-cup-engineering/english-language-engineering-services-section.git
