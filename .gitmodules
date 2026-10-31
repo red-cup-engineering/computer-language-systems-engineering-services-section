@@ -31,8 +31,8 @@
 	url = https://github.com/red-cup-engineering/tokipona-language-corpus.git
 	branch = main
 [submodule "language-message-runtime-service"]
-	path = services/language-message-runtime-service
-	url = https://github.com/red-cup-engineering/language-message-runtime-service.git
+	path = services/computer-language-message-runtime-systems-engineering-services-section
+	url = https://github.com/red-cup-engineering/computer-language-message-runtime-systems-engineering-services-section.git
 	branch = main
 [submodule "services/english-language-engineering-services-section"]
 	path = services/english-language-engineering-services-section
