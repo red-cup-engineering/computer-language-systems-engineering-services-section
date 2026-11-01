@@ -33,6 +33,7 @@
     "@red-cup-engineering/activitypub-services-section": "0.8.4",
     "@red-cup-engineering/communicating": "0.2.1",
     "@red-cup-engineering/computer-inference-engine": "0.1.2",
+    "@red-cup-engineering/image-authoring-service": "git+https://github.com/red-cup-engineering/image-authoring-service.git#ece3490e22ef6c4cec779b13f953945314188307",
     "@red-cup-engineering/computer-system-engine": "0.1.2",
     "@red-cup-engineering/computer-web-server": "0.6.2",
     "@red-cup-engineering/relating": "0.10.4",

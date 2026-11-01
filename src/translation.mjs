@@ -6,12 +6,12 @@
  * own format with its cues and timings unchanged and only its text
  * translated.
  *
- * The model call goes through the inference engine's Workers AI runner, so
+ * The model call goes through the image-authoring service's Workers AI runner, so
  * the same function runs inside the market's Worker (through its `AI`
  * binding) and on a Node host (over REST). Models are tried in order and the
  * next is used when one fails; a request fails only when every model has.
  */
-import { runWorkersAiModel } from "@red-cup-engineering/computer-inference-engine/cloudflare/workers-ai";
+import { runWorkersAiModel } from "@red-cup-engineering/image-authoring-service/workers-ai";
 import { parseSubtitles, serializeSubtitles } from "@red-cup-engineering/computer-text-content-engineering-services-section/subtitles";
 
 import { evidenceCensus, joinedReading, renderingsOf, segmentEvidence } from "./translation-evidence.mjs";
