@@ -42,7 +42,3 @@
 	path = services/tokipona-language-engineering-services-section
 	url = https://github.com/red-cup-engineering/tokipona-language-engineering-services-section.git
 	branch = main
-[submodule "services/mandarin-language-engineering-services-section"]
-	path = services/mandarin-language-engineering-services-section
-	url = https://github.com/red-cup-engineering/mandarin-language-engineering-services-section.git
-	branch = main
