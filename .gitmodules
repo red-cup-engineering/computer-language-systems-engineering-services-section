@@ -38,10 +38,6 @@
 	path = services/english-language-engineering-services-section
 	url = https://github.com/red-cup-engineering/english-language-engineering-services-section.git
 	branch = main
-[submodule "services/latin-language-engineering-services-section"]
-	path = services/latin-language-engineering-services-section
-	url = https://github.com/red-cup-engineering/latin-language-engineering-services-section.git
-	branch = main
 [submodule "services/tokipona-language-engineering-services-section"]
 	path = services/tokipona-language-engineering-services-section
 	url = https://github.com/red-cup-engineering/tokipona-language-engineering-services-section.git
