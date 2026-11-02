@@ -1,36 +1,36 @@
-[submodule "arabic-language-corpus"]
+[submodule "apps/arabic-language-corpus"]
 	path = apps/arabic-language-corpus
 	url = https://github.com/red-cup-engineering/arabic-language-corpus.git
 	branch = main
-[submodule "english-language-corpus"]
+[submodule "apps/english-language-corpus"]
 	path = apps/english-language-corpus
 	url = https://github.com/red-cup-engineering/english-language-corpus.git
 	branch = main
-[submodule "horsetail"]
+[submodule "apps/horsetail"]
 	path = apps/horsetail
 	url = https://github.com/red-cup-engineering/horsetail.git
 	branch = main
-[submodule "lakota-language-corpus"]
+[submodule "apps/lakota-language-corpus"]
 	path = apps/lakota-language-corpus
 	url = https://github.com/red-cup-engineering/lakota-language-corpus.git
 	branch = main
-[submodule "latin-language-corpus"]
+[submodule "apps/latin-language-corpus"]
 	path = apps/latin-language-corpus
 	url = https://github.com/red-cup-engineering/latin-language-corpus.git
 	branch = main
-[submodule "panini"]
+[submodule "apps/panini"]
 	path = apps/panini
 	url = https://github.com/red-cup-engineering/panini.git
 	branch = main
-[submodule "relation-language-corpus"]
+[submodule "apps/relation-language-corpus"]
 	path = apps/relation-language-corpus
 	url = https://github.com/red-cup-engineering/relation-language-corpus.git
 	branch = main
-[submodule "tokipona-language-corpus"]
+[submodule "apps/tokipona-language-corpus"]
 	path = apps/tokipona-language-corpus
 	url = https://github.com/red-cup-engineering/tokipona-language-corpus.git
 	branch = main
-[submodule "language-message-runtime-service"]
+[submodule "services/computer-language-message-runtime-systems-engineering-services-section"]
 	path = services/computer-language-message-runtime-systems-engineering-services-section
 	url = https://github.com/red-cup-engineering/computer-language-message-runtime-systems-engineering-services-section.git
 	branch = main
