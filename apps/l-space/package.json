@@ -37,8 +37,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-cup-engineering/computer-systems-engineering-services-section.git",
-    "directory": "services/computer-language-systems-engineering-services-section/apps/l-space"
+    "url": "git+https://github.com/red-cup-engineering/computer-language-systems-engineering-services-section.git",
+    "directory": "apps/l-space"
   },
   "bin": {
     "l-space": "./scripts/l-space.mjs"
