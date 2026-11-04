@@ -42,3 +42,7 @@
 	path = services/computer-language-learning-systems-engineering-services-section
 	url = https://github.com/red-cup-engineering/computer-language-learning-systems-engineering-services-section.git
 	branch = main
+[submodule "services/language-engineering-services-section"]
+	path = services/language-engineering-services-section
+	url = https://github.com/red-cup-engineering/language-engineering-services-section.git
+	branch = main

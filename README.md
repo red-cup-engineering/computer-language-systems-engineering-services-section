@@ -39,3 +39,10 @@ integration or downstream receiving.
 ## Earlier work
 
 - Restored files at `lib/legacy/2026-08-01-bcf1ab7` (restore commit bcf1ab7), from the 561-group/bare-cedar-fog history.
+
+## Natural-language standards
+
+[Language Engineering](services/language-engineering-services-section/README.md)
+owns the private natural-language standards and their language-specific
+implementations, including PlainEng/PTGAE. Language science supplies the
+definitions and evidence used by those systems.
