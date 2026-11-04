@@ -38,7 +38,7 @@
 	path = services/english-language-engineering-services-section
 	url = https://github.com/red-cup-engineering/english-language-engineering-services-section.git
 	branch = main
-[submodule "apps/iyappy-service"]
-	path = apps/iyappy-service
-	url = https://github.com/red-cup-engineering/iyappy-service.git
+[submodule "services/computer-language-learning-systems-engineering-services-section"]
+	path = services/computer-language-learning-systems-engineering-services-section
+	url = https://github.com/red-cup-engineering/computer-language-learning-systems-engineering-services-section.git
 	branch = main
