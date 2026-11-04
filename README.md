@@ -9,8 +9,7 @@
 
 Computer language systems engineering: grammars, parsers, and language tooling, including Panini.
 
-Computer language systems engineering: grammars, parsers, and language tooling, including Panini.
-
+[L-space](apps/l-space/README.md) provides typed multilingual message catalogs, ARB and XLIFF interchange, and HTTP locale negotiation.
 
 ## Source-exact language reading projection
 

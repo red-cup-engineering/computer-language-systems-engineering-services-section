@@ -68,4 +68,21 @@ Every rendering it records is bound to the current source token, so a later sour
 
 ## Development
 
-Until SignCell 0.13.0 is published, the local `pnpm-workspace.yaml` (gitignored) links it from `computer-data-engineering-services-section/apps/signcell`. Run `pnpm install --lockfile=false && npm test`.
+The app uses SignCell's `./language` export for its language-tagged token carrier.
+The registry package pinned in `package.json` lacks that export. The source
+receiving assay uses the selected SignCell candidate and Node 24.2 or newer.
+
+From the selected SignCell checkout, install with its frozen lockfile and
+run `npm pack --ignore-scripts`. In a disposable copy of this app, set
+`SIGNCELL_TARBALL` to the absolute path of that tarball and run:
+
+```sh
+npm pkg set "dependencies.@red-cup-engineering/signcell=file:$SIGNCELL_TARBALL"
+npm install --package-lock-only --registry=https://registry.561.group/
+npm ci --registry=https://registry.561.group/
+npm test
+```
+
+The local dependency override is for source receiving. Registry installation
+still requires a released SignCell package with the export and a matching
+dependency pin here.
