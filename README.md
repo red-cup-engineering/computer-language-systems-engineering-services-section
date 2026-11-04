@@ -46,3 +46,6 @@ integration or downstream receiving.
 owns the private natural-language standards and their language-specific
 implementations, including PlainEng/PTGAE. Language science supplies the
 definitions and evidence used by those systems.
+
+The [language-specific corpus applications](services/language-engineering-services-section/README.md#language-specific-applications)
+are indexed by their language owners in Language Engineering.
