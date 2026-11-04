@@ -34,10 +34,6 @@
 	path = services/computer-language-message-runtime-systems-engineering-services-section
 	url = https://github.com/red-cup-engineering/computer-language-message-runtime-systems-engineering-services-section.git
 	branch = main
-[submodule "services/english-language-engineering-services-section"]
-	path = services/english-language-engineering-services-section
-	url = https://github.com/red-cup-engineering/english-language-engineering-services-section.git
-	branch = main
 [submodule "services/computer-language-learning-systems-engineering-services-section"]
 	path = services/computer-language-learning-systems-engineering-services-section
 	url = https://github.com/red-cup-engineering/computer-language-learning-systems-engineering-services-section.git

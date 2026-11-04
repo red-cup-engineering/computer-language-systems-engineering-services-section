@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createTag} from '../scripts/tag.mjs';
 import {read} from '@red-cup-engineering/communicating';
-import {rawBundle} from '../services/english-language-engineering-services-section/apps/english-language-algebra/src/bundle.mjs';
+import {rawBundle} from '../services/language-engineering-services-section/services/english-engineering-services-section/apps/english-language-algebra/src/bundle.mjs';
 
 const {tagText,bundle}=createTag(rawBundle);
 
