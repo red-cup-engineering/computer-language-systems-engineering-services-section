@@ -45,14 +45,23 @@ Start with the producer's input, result, and caller. Shared language runtimes
 and interchange belong here. Language-specific standards, bundles, and parsing
 adapters belong under their language owners. Science retains the models and
 evidence those tools consume. Declare other producer relationships through
-package dependencies or source links. [Computer Engineering's placement and package guide](https://github.com/red-cup-engineering/computer-engineering-services-section/blob/47f194ea9b071318c49bf323508ff087b0de6e43/README.md#section-placement-and-package-boundaries)
+package dependencies or source links.
+
+The path from Information Systems through Language Systems and Language
+Engineering to English narrows the scope at each step. The implication
+goes from child to parent. An English parser is language tooling and
+therefore information-processing software. If it uses a language model
+from Science, the checkout path records the parser's owner and the
+dependency records the model's source.
+
+See [Computer Engineering's placement and package guide](https://github.com/red-cup-engineering/computer-engineering-services-section/blob/47f194ea9b071318c49bf323508ff087b0de6e43/README.md#section-placement-and-package-boundaries).
 
 ## Natural-language standards
 
-[Language Engineering](services/language-engineering-services-section/README.md)
+[Language Engineering](https://github.com/red-cup-engineering/language-engineering-services-section/blob/12c6e2dbf925058e5a3329428e7d5bab6a5ba21c/README.md)
 owns the private natural-language standards and their language-specific
 implementations, including PlainEng/PTGAE. Language science supplies the
 definitions and evidence used by those systems.
 
-The [language-specific corpus applications](services/language-engineering-services-section/README.md#language-specific-applications)
+The [language-specific corpus applications](https://github.com/red-cup-engineering/language-engineering-services-section/blob/12c6e2dbf925058e5a3329428e7d5bab6a5ba21c/README.md#language-specific-applications)
 are indexed by their language owners in Language Engineering.
