@@ -39,6 +39,14 @@ integration or downstream receiving.
 
 - Restored files at `lib/legacy/2026-08-01-bcf1ab7` (restore commit bcf1ab7), from the 561-group/bare-cedar-fog history.
 
+## Where language tooling belongs
+
+Start with the producer's input, result, and caller. Shared language runtimes
+and interchange belong here. Language-specific standards, bundles, and parsing
+adapters belong under their language owners. Science retains the models and
+evidence those tools consume. Declare other producer relationships through
+package dependencies or source links. [Computer Engineering's placement and package guide](https://github.com/red-cup-engineering/computer-engineering-services-section/blob/47f194ea9b071318c49bf323508ff087b0de6e43/README.md#section-placement-and-package-boundaries)
+
 ## Natural-language standards
 
 [Language Engineering](services/language-engineering-services-section/README.md)
