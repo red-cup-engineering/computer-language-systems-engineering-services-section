@@ -32,7 +32,6 @@
     "@red-cup-engineering/markdown-engineering-services-section": "0.5.2",
     "@red-cup-engineering/activitypub-services-section": "0.8.4",
     "@red-cup-engineering/communicating": "0.2.1",
-    "@red-cup-engineering/computer-inference-engine": "0.1.2",
     "@red-cup-engineering/image-authoring-service": "git+https://github.com/red-cup-engineering/image-authoring-service.git#ece3490e22ef6c4cec779b13f953945314188307",
     "@red-cup-engineering/computer-system-engine": "0.1.2",
     "@red-cup-engineering/computer-web-server": "0.6.2",
@@ -62,6 +61,7 @@
     "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
   },
   "scripts": {
+    "test:dependency-boundary": "node --test test/dependency-boundary.test.mjs",
     "test:source-projection": "node --test test/source-anchoring.test.mjs",
     "test:tag-native": "node --test test/tag-native-source.test.mjs",
     "test:tmx": "node --test test/translation-memory-tmx*.test.mjs"
