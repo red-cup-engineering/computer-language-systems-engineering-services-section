@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 import { semanticIdOf } from "@red-cup-engineering/computer-data-engineering-services-section/semiotic-expression-notation/semantic-content-identity";
-import { ACTIVITYSTREAMS_CONTEXT } from "@red-cup-engineering/activitypub-services-section/activitystreams";
+import { ACTIVITYSTREAMS_CONTEXT } from "@red-cup-engineering/activitypub-engineering-services-section/activitystreams";
 
 const LMT_ACTOR = "urn:ame:leader-movement-team";
 
