@@ -3,7 +3,7 @@
 // `serveCommunicate` serves the same actions over HTTP. COMMUNICATING_DATA names the data
 // root for the invocation ledger; unset disables witnessing.
 
-import { induceSurface } from "@red-cup-engineering/computer-system-engine/rpc/induce";
+import { induceSurface } from "@red-cup-engineering/computer-engine/rpc/induce";
 import { serve } from "@red-cup-engineering/computer-web-server/platform-http/operation-serving";
 
 async function readStdin() {

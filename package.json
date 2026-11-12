@@ -32,7 +32,7 @@
     "@red-cup-engineering/activitypub-engineering-services-section": "^0.11.6",
     "@red-cup-engineering/communicating": "0.2.1",
     "@red-cup-engineering/image-authoring-service": "^0.2.1",
-    "@red-cup-engineering/computer-system-engine": "0.1.2",
+    "@red-cup-engineering/computer-engine": "^0.1.2",
     "@red-cup-engineering/computer-web-server": "0.6.2",
     "@red-cup-engineering/relating": "0.10.4",
     "@red-cup-engineering/computer-triplet-serialized-content-engineering-services-section": "0.1.6-dev.133"
