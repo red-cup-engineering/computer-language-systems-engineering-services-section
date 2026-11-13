@@ -42,7 +42,7 @@
  * under the hypotheses, that is a counterexample, and the receipt carries it.
  * These are executable checks on finite data, not Lean proofs.
  */
-import { semanticId } from "@red-cup-engineering/semiotic-content-address";
+import { semanticId } from "@red-cup-engineering/semiotic-content-address-system";
 import { cell, truthReading } from "@red-cup-engineering/signcell/cell";
 import { languageOf, languageTag, textOf } from "@red-cup-engineering/signcell/language";
 import { settle } from "@red-cup-engineering/metrologic/articulation/predicating/positing/settling/analysis/chromatic-lorentzian";

@@ -11,7 +11,7 @@
  * binding) and on a Node host (over REST). Models are tried in order and the
  * next is used when one fails; a request fails only when every model has.
  */
-import { runWorkersAiModel } from "@red-cup-engineering/image-authoring-service/workers-ai";
+import { runWorkersAiModel } from "@red-cup-engineering/image-authoring-computer-inference-system-engineering-services-section/workers-ai";
 import { parseSubtitles, serializeSubtitles } from "@red-cup-engineering/computer-text-content-engineering-services-section/subtitles";
 
 import { evidenceCensus, joinedReading, renderingsOf, segmentEvidence } from "./translation-evidence.mjs";
