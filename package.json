@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/computer-language-systems-engineering-services-section",
-  "version": "0.1.7-dev.2",
+  "version": "0.1.7-dev.3",
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
@@ -51,7 +51,9 @@
     "test/tag-native-source.test.mjs",
     "test/translation.test.mjs",
     "test/episode-translation.test.mjs",
-    "test/translation-effects.test.mjs"
+    "test/translation-effects.test.mjs",
+    "test/translation-memory.test.mjs",
+    "test/stored-translation-memory.test.mjs"
   ],
   "license": "MIT",
   "funding": {
@@ -63,8 +65,9 @@
     "test:source-projection": "node --test test/source-anchoring.test.mjs",
     "test:tag-native": "node --test test/tag-native-source.test.mjs",
     "test:tmx": "node --test test/translation-memory-tmx*.test.mjs",
-    "test:consumer": "node --test test/source-anchoring.test.mjs test/tag-native-source.test.mjs test/translation-memory-tmx*.test.mjs test/translation.test.mjs test/episode-translation.test.mjs test/translation-effects.test.mjs",
-    "test:translation": "node --test test/translation.test.mjs test/episode-translation.test.mjs test/translation-effects.test.mjs"
+    "test:consumer": "node --test test/source-anchoring.test.mjs test/tag-native-source.test.mjs test/translation-memory-tmx*.test.mjs test/translation.test.mjs test/episode-translation.test.mjs test/translation-effects.test.mjs test/translation-memory.test.mjs test/stored-translation-memory.test.mjs",
+    "test:translation": "node --test test/translation.test.mjs test/episode-translation.test.mjs test/translation-effects.test.mjs",
+    "test:memory": "node --test test/translation-memory.test.mjs test/stored-translation-memory.test.mjs"
   },
   "receivingTests": [
     "test/translation-memory-tmx.test.mjs",
@@ -73,7 +76,9 @@
     "test/tag-native-source.test.mjs",
     "test/translation.test.mjs",
     "test/episode-translation.test.mjs",
-    "test/translation-effects.test.mjs"
+    "test/translation-effects.test.mjs",
+    "test/translation-memory.test.mjs",
+    "test/stored-translation-memory.test.mjs"
   ],
   "devDependencies": {
     "@lenticule-science/english-language-algebra": "0.1.13-dev.1"

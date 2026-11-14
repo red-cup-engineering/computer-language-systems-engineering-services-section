@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   admitTranslationMemoryRequest,
   translateFromMemory
-} from '../src/translation-memory.mjs';
+} from '@red-cup-engineering/computer-language-systems-engineering-services-section/translation-memory';
 
 const PREF = 'http://www.w3.org/2004/02/skos/core#prefLabel';
 

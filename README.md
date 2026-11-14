@@ -142,12 +142,32 @@ not an ownership transfer, retirement or qualification of that application.
 The existing carrier-module assay and module-request parser were applied to
 the published payload and original tests. That is static module-request
 evidence, not proof that every runtime path or installation is qualified.
-The assay still reports the shipped tagging test's English development
-supplier as a runtime dependency; that classification remains unresolved.
-The test and its declared development supplier remain unchanged. Language-
+Publication-owner PR128 (carrier assay 0.19.1-dev.8) distinguishes declared
+native receiving-test roots from public/runtime roots. Its packed-carrier
+assay admits this root payload with zero violations; unsupported test-script
+globs remain explicit analysis limits, not fully analyzed invocations. The
+tagging test and its English development supplier remain unchanged. Language-
 specific science remains with its existing owners.
 
 The source lock remains unchanged and is not evidence of a native frozen
 installation for the revised manifest. Source and packed receiving tests,
 actual consumer checks, registry issuance and native resolver qualification
 are distinct stages.
+
+
+## Primary corpus-memory receiving
+
+`test:memory` runs the original pure and stored translation-memory contracts
+through the public `/translation-memory` and `/stored-translation-memory`
+package exports. Both suites ship as `receivingTests` and are included in
+`test:consumer`, so the exact packed carrier can run its own primary checks.
+The stored-memory tests use only in-memory bucket ports and digest fixtures;
+no live corpus read, inference, payment or storage write occurs.
+
+Pure translation memory preserves exact lexical Unicode and recorded witness
+identity, including the intentional distinction between NFC and NFD strings.
+It does not supply normalized substring search. Stored receiving verifies
+bounded bytes, digest, UTF-8 and JSON, rejects invalid requests before reading,
+and tests coalesced reads, rejected-edition eviction and the eight-edition LRU.
+Passing these suites is source/packed functional evidence, not a frozen
+registry installation, live merchant receipt or deployment.

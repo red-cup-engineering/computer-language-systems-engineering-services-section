@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
 import { webcrypto } from 'node:crypto';
-import { translateFromStoredMemory } from '../src/stored-translation-memory.mjs';
+import { translateFromStoredMemory } from '@red-cup-engineering/computer-language-systems-engineering-services-section/stored-translation-memory';
 
 if (!globalThis.crypto) {
   globalThis.crypto = webcrypto;
