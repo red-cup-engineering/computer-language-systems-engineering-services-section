@@ -11,7 +11,7 @@ import {
   reviewCdramaEpisode,
   translateCdramaEnZhEpisode,
   translateCdramaZhEnEpisode,
-} from "../src/episode-translation.mjs";
+} from "@red-cup-engineering/computer-language-systems-engineering-services-section/episode-translation";
 
 function fakeAi(translations) {
   return {
