@@ -121,3 +121,26 @@ zero-charge guarantee is implied. Episode tests prove no bucket write occurs
 when the first model outcome is uncertain; they do not establish transactional
 or exactly-once storage. Model quality, live provider availability and a
 native frozen installation remain separately unqualified.
+
+## Direct dependency boundary
+
+The root package declares suppliers its own published modules use. Dependencies
+needed by another supplier remain that supplier's responsibility; they are not
+redeclared here merely to make a hoisted development graph load. Removing
+unused root declarations does not remove transitive requirements or change any
+language, parsing, translation or inference behavior.
+
+The existing carrier-module assay and module-request parser were applied to
+the complete published payload, including nested L-space, and original tests.
+That is static module-request evidence, not proof that every runtime path or
+installation is qualified. The packed carrier still has known observations
+for L-space dependencies declared only in its nested manifest and for the
+assay's treatment of a shipped test's English development supplier. Those
+observations remain unresolved; no nested application was removed or declared
+optional to hide them. Language-specific science remains with its existing
+owners.
+
+The source lock remains unchanged and is not evidence of a native frozen
+installation for the revised manifest. Source and packed receiving tests,
+actual consumer checks, registry issuance and native resolver qualification
+are distinct stages.
