@@ -8,8 +8,9 @@
  *
  * The model call goes through the image-authoring service's Workers AI runner, so
  * the same function runs inside the market's Worker (through its `AI`
- * binding) and on a Node host (over REST). Models are tried in order and the
- * next is used when one fails; a request fails only when every model has.
+ * binding) and on a Node host (over REST). Models are tried in order only
+ * after explicit non-submission or a received, readable semantic rejection.
+ * Uncertain transport outcomes and unreadable results stop the current batch.
  */
 import { runWorkersAiModel } from "@red-cup-engineering/image-authoring-computer-inference-system-engineering-services-section/workers-ai";
 import { parseSubtitles, serializeSubtitles } from "@red-cup-engineering/computer-text-content-engineering-services-section/subtitles";
@@ -193,45 +194,72 @@ function namesIn(text) {
   return names;
 }
 
-/** Shared model boundary for numbered, aligned source and target segments. */
-export async function translateNumberedBatch({ instruction, segments, format = "text", terms = [], level = "natural", askNames = false, targetLanguage = "English" }, env = {}) {
+/** A failure describes only this numbered batch, never safe replay of a request. */
+function batchFailure(message, cause, attempts, code) {
+  const error = new Error(message, { cause });
+  error.name = "TranslationModelError";
+  error.code = code;
+  error.attemptScope = "numbered-batch";
+  error.attempts = Object.freeze([...attempts]);
+  return error;
+}
+
+/** Shared model boundary. Only explicit non-submission permits transport fallback. */
+export async function translateNumberedBatch({ instruction, segments, format = "text", terms = [], level = "natural", askNames = false, targetLanguage = "English" }, env = {}, { authorize } = {}) {
+  if (authorize !== undefined && typeof authorize !== "function") throw new TypeError("translation authorization must be a function");
   if (!Array.isArray(segments) || segments.length === 0 || segments.length > SEGMENTS_PER_CALL || segments.some((segment) => typeof segment !== "string" || segment.trim() === "")) {
     throw new RangeError(`segments must contain one to ${SEGMENTS_PER_CALL} non-empty strings`);
   }
   if (typeof instruction !== "string" || instruction.trim() === "") throw new TypeError("translation instruction is required");
   if (targetLanguage !== "English" && targetLanguage !== "Mandarin Chinese") throw new RangeError("targetLanguage must be English or Mandarin Chinese");
   const module = { instruction, glossary: terms };
-  const failures = [];
+  const attempts = [];
   for (const model of MANDARIN_TRANSLATION_MODELS) {
+    let result;
     try {
-      const result = await runWorkersAiModel(model, { messages: promptFor(module, segments, format, level, terms, askNames, targetLanguage), max_tokens: 4096, temperature: 0.2, chat_template_kwargs: { enable_thinking: false } }, { env });
-      const text = textOf(result);
+      result = await runWorkersAiModel(model, { messages: promptFor(module, segments, format, level, terms, askNames, targetLanguage), max_tokens: 4096, temperature: 0.2, chat_template_kwargs: { enable_thinking: false } }, { env, authorize });
+    } catch (cause) {
+      const notSubmitted = cause?.submissionState === "not-submitted" && cause?.effectAttempted === false;
+      attempts.push(Object.freeze({ model, outcome: notSubmitted ? "not-submitted" : "uncertain",
+        ...(cause?.submissionState === undefined ? {} : { submissionState: cause.submissionState }),
+        ...(cause?.effectAttempted === undefined ? {} : { effectAttempted: cause.effectAttempted }),
+        ...(cause?.effect === undefined ? {} : { effect: cause.effect }), cause }));
+      if (notSubmitted) continue;
+      throw batchFailure("translation stopped: provider outcome is uncertain", cause, attempts, "TRANSLATION_OUTCOME_UNCERTAIN");
+    }
+    // A received result is not a transport refusal. Only successfully read text
+    // may be judged semantically invalid and retried by the language owner.
+    let text;
+    try { text = textOf(result); }
+    catch (cause) {
+      attempts.push(Object.freeze({ model, outcome: "unreadable-result", submissionState: "received", effectAttempted: true, cause }));
+      throw batchFailure("translation stopped: received model result is unreadable", cause, attempts, "TRANSLATION_RESULT_UNREADABLE");
+    }
+    try {
       const found = numberedLines(text, segments.length);
       if (found.size !== segments.length) throw new Error(`the model returned ${found.size} of ${segments.length} items`);
       const targets = segments.map((_, index) => found.get(index));
-      // Reuse the source's existing untranslated-Han predicate at the model
-      // boundary. A numbered echo is not delivered English; try the next
-      // available model within the already-authorized provider chain instead
-      // of accepting an unusable, potentially chargeable result.
       if (targetLanguage === "English" && targets.some((target) => HAN.test(target)))
         throw new Error("model left untranslated Han characters in an English target");
-      return { model, targets, names: askNames ? namesIn(text) : [] };
-    } catch (error) {
-      failures.push(`${model}: ${error.message}`);
+      attempts.push(Object.freeze({ model, outcome: "received-valid", submissionState: "received", effectAttempted: true }));
+      return { model, targets, names: askNames ? namesIn(text) : [], attempts: Object.freeze([...attempts]) };
+    } catch (cause) {
+      attempts.push(Object.freeze({ model, outcome: "received-invalid", submissionState: "received", effectAttempted: true, cause }));
     }
   }
-  throw new Error(`translation failed on every model (${failures.join("; ")})`);
+  const cause = attempts.at(-1)?.cause;
+  throw batchFailure(`translation failed on every model (${attempts.map(a => `${a.model}: ${a.cause?.message ?? "refused"}`).join("; ")})`, cause, attempts, "TRANSLATION_MODELS_EXHAUSTED");
 }
 
 /** Every segment's English at one level, in order, with the models that made it. */
-async function translateAtLevel(module, request, env, level, terms, askNames) {
+async function translateAtLevel(module, request, env, level, terms, askNames, options) {
   const targets = [];
   const models = new Set();
   const names = [];
   for (let start = 0; start < request.segments.length; start += SEGMENTS_PER_CALL) {
     const batch = request.segments.slice(start, start + SEGMENTS_PER_CALL);
     const translatable = batch.map((segment, index) => ({ segment, index })).filter(({ segment }) => HAN.test(segment));
-    const translated = translatable.length === 0 ? { targets: [], names: [] } : await translateNumberedBatch({ instruction: module.instruction, segments: translatable.map(({ segment }) => segment), format: request.format, level, terms, askNames }, env);
+    const translated = translatable.length === 0 ? { targets: [], names: [] } : await translateNumberedBatch({ instruction: module.instruction, segments: translatable.map(({ segment }) => segment), format: request.format, level, terms, askNames }, env, options);
     if (translated.model !== undefined) models.add(translated.model);
     names.push(...translated.names);
     const byIndex = new Map(translatable.map(({ index }, position) => [index, translated.targets[position]]));
@@ -271,7 +299,7 @@ function renderedAs(module, request, targets) {
  * SRT or WebVTT), every requested level's rendering, and each segment's
  * source beside its English at each level, so a buyer can check every line.
  */
-export async function translateMandarin(body, env = {}, moduleId = body?.module) {
+export async function translateMandarin(body, env = {}, moduleId = body?.module, options = {}) {
   const module = moduleOf(moduleId);
   const request = admitMandarinTranslation(body, module.id);
   const levels = mandarinLevelsOf(body);
@@ -280,7 +308,7 @@ export async function translateMandarin(body, env = {}, moduleId = body?.module)
   const models = new Set();
   let names = [];
   for (const [position, level] of levels.entries()) {
-    const result = await translateAtLevel(module, request, env, level, terms, position === 0);
+    const result = await translateAtLevel(module, request, env, level, terms, position === 0, options);
     byLevel[level] = result.targets;
     for (const model of result.models) models.add(model);
     if (position === 0) names = result.names;
@@ -310,8 +338,8 @@ export async function translateMandarin(body, env = {}, moduleId = body?.module)
 }
 
 /** The general module, for the market's `POST /v1/translate/zh-en`. */
-export function translateMandarinToEnglish(body, env) {
-  return translateMandarin(body, env, "general");
+export function translateMandarinToEnglish(body, env, options = {}) {
+  return translateMandarin(body, env, "general", options);
 }
 
 /** Admission for the general module's route. */
