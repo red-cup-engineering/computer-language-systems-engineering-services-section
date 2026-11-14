@@ -86,8 +86,38 @@ behavior. Passing them is not evidence of model translation quality or
 live service availability. Source-graph qualification, registry issuance
 and a native frozen installation remain separate gates.
 
-The existing fallback tests do not qualify effect-safe retries. A provider
-failure after invocation can leave the outcome unreceived; the current
-translation layer flattens failures and tries the next model. These tests
-preserve that existing behavior but do not establish that a failed call
-had no effect or charge. Effect-aware retry handling remains unresolved.
+### Effect-aware model fallback (0.1.7 development)
+
+This changes failure behavior: a transport error permits trying the next
+model only when the genuine provider explicitly reports both
+`submissionState: "not-submitted"` and `effectAttempted: false`. Unreceived
+or unclassified failures stop, as do null or unreadable results. A received,
+readable result with missing numbered items or untranslated Han text still
+permits semantic fallback. This preserves the language-owned distinction
+introduced in commit `9425b609`, while honoring the provider's existing
+submission/effect contract rather than reimplementing it.
+
+Authorization is a private options argument: `translateNumberedBatch(request,
+env, { authorize })`, `translateMandarin(body, env, moduleId, { authorize })`,
+`translateMandarinToEnglish(body, env, { authorize })`, and each episode
+translation function's third argument. The callback receives the genuine
+provider's frozen effect before invocation. Body and environment properties
+named `authorize` are not hooks or authority. Every alternative model goes
+through authorization independently.
+
+`TranslationModelError` preserves the original failure in `cause` and
+exposes frozen `attempts` with `attemptScope: "numbered-batch"`. Attempt
+records distinguish non-submission, uncertainty, unreadable results,
+received semantic rejection and success, preserving available provider
+effect evidence without storing prompts or response payloads. The successful
+batch result also includes its bounded attempt records. Missing submission
+facts are not invented. Exhaustion does not label the whole operation as
+unsubmitted based on its last failure.
+
+The record is scoped to the current batch, not the full request. Earlier
+batches or levels may already have invoked providers. No automatic replay
+of a complete request is justified, and no exactly-once persistence or
+zero-charge guarantee is implied. Episode tests prove no bucket write occurs
+when the first model outcome is uncertain; they do not establish transactional
+or exactly-once storage. Model quality, live provider availability and a
+native frozen installation remain separately unqualified.

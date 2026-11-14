@@ -26,10 +26,16 @@ test("text is translated paragraph by paragraph", async () => {
   assert.deepEqual(result.segments.map((segment) => segment.source), ["第一段。", "第二段 继续。"]);
 });
 
-test("the next model is used when one fails, and a short reply is a failure", async () => {
+test("post-invocation capacity failure stops, and received short replies exhaust semantic fallback", async () => {
   const ai = fakeAi({ "你好": "Hello" }, { failModels: ["@cf/zai-org/glm-4.7-flash"] });
-  const result = await translateMandarinToEnglish({ text: "你好" }, { AI: ai.AI });
-  assert.deepEqual(result.models, ["@cf/qwen/qwen3.8-27b"]);
+  await assert.rejects(translateMandarinToEnglish({ text: "你好" }, { AI: ai.AI }), error => {
+    assert.equal(error.code, "TRANSLATION_OUTCOME_UNCERTAIN");
+    assert.equal(error.cause.submissionState, "unreceived");
+    assert.equal(error.cause.effectAttempted, true);
+    assert.equal(error.cause.cause.message, "capacity");
+    return true;
+  });
+  assert.equal(ai.calls.length, 1);
   const silent = { AI: { async run() { return { response: "" }; } } };
   await assert.rejects(translateMandarinToEnglish({ text: "你好" }, silent), /every model/u);
 });

@@ -223,7 +223,7 @@ async function prepareSeries(approvedTerms = []) {
   return { seriesId, seriesKey, state };
 }
 
-async function translateEpisode(body, env, direction) {
+async function translateEpisode(body, env, direction, options) {
   const document = admitCdramaEpisode(body, direction);
   const bucket = bucketOf(env);
   const seriesKey = seriesKeyOf(body);
@@ -247,7 +247,7 @@ async function translateEpisode(body, env, direction) {
     if (!pending.length) continue;
     const relevantTerms = terms.filter((term) => pending.some(({ segment }) => segment.toLocaleLowerCase("en").includes(term.source.toLocaleLowerCase("en"))));
     const instruction = `${DIRECTIONS[direction].instruction}${body.productionContext ? `\n\nProduction context: ${body.productionContext}` : ""}`;
-    const result = await translateNumberedBatch({ instruction, segments: pending.map(({ segment }) => segment), format: document.format, terms: relevantTerms, targetLanguage: direction === "zh-en" ? "English" : "Mandarin Chinese", askNames: direction === "zh-en" }, env);
+    const result = await translateNumberedBatch({ instruction, segments: pending.map(({ segment }) => segment), format: document.format, terms: relevantTerms, targetLanguage: direction === "zh-en" ? "English" : "Mandarin Chinese", askNames: direction === "zh-en" }, env, options);
     for (const model of result.model ? [result.model] : []) models.add(model);
     for (const name of result.names) {
       if (segments.some((segment) => segment.includes(name.source)) && !terms.some((term) => term.source === name.source || term.target.toLocaleLowerCase("en") === name.target.toLocaleLowerCase("en")) && !termCandidates.some((candidate) => candidate.source === name.source)) termCandidates.push({ direction, ...name });
@@ -270,8 +270,8 @@ async function translateEpisode(body, env, direction) {
   return materialize(bucket, episode, series.state, series.seriesKey);
 }
 
-export const translateCdramaZhEnEpisode = (body, env) => translateEpisode(body, env, "zh-en");
-export const translateCdramaEnZhEpisode = (body, env) => translateEpisode(body, env, "en-zh");
+export const translateCdramaZhEnEpisode = (body, env, options = {}) => translateEpisode(body, env, "zh-en", options);
+export const translateCdramaEnZhEpisode = (body, env, options = {}) => translateEpisode(body, env, "en-zh", options);
 
 function termChangesOf(terms) {
   if (!Array.isArray(terms) || terms.length > MAX_TERMS || terms.some((item) => !Object.hasOwn(DIRECTIONS, item?.direction) || typeof item.source !== "string" || !item.source.trim() || typeof item.target !== "string" || !item.target.trim() || (item.replaces !== undefined && typeof item.replaces !== "string"))) throw new TypeError("terms must be { direction, source, target, replaces? } entries");
