@@ -69,3 +69,25 @@ definitions and evidence used by those systems.
 
 The [language-specific corpus applications](https://github.com/red-cup-engineering/language-engineering-services-section/blob/12c6e2dbf925058e5a3329428e7d5bab6a5ba21c/README.md#language-specific-applications)
 are indexed by their language owners in Language Engineering.
+
+## Translation and episode package receiving
+
+`npm run test:translation` exercises the public `/translation` and
+`/episode-translation` exports using the original translation and episode
+contract tests. Both tests ship in the package and are included in
+`test:consumer`. The tests inject an in-memory `fakeAi` binding and, for
+episodes, an in-memory bucket. They exercise the genuine Workers AI runner
+with those bindings; they do not contact an inference provider, use real
+credentials, incur model charges or write to external storage.
+
+These receiving checks cover request admission, numbered translation and
+model fallback, subtitle preservation, episode terminology and review
+behavior. Passing them is not evidence of model translation quality or
+live service availability. Source-graph qualification, registry issuance
+and a native frozen installation remain separate gates.
+
+The existing fallback tests do not qualify effect-safe retries. A provider
+failure after invocation can leave the outcome unreceived; the current
+translation layer flattens failures and tries the next model. These tests
+preserve that existing behavior but do not establish that a failed call
+had no effect or charge. Effect-aware retry handling remains unresolved.

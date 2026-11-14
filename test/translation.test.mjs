@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { admitMandarinTranslation, MANDARIN_TRANSLATION_CHARACTER_LIMIT, translateMandarinToEnglish, wrapSubtitleText } from "../src/translation.mjs";
+import { admitMandarinTranslation, MANDARIN_TRANSLATION_CHARACTER_LIMIT, translateMandarinToEnglish, wrapSubtitleText } from "@red-cup-engineering/computer-language-systems-engineering-services-section/translation";
 
 /** A stand-in `AI` binding that answers each numbered item from a table, and records what it was asked. */
 function fakeAi(table, { failModels = [] } = {}) {
