@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/computer-language-systems-engineering-services-section",
-  "version": "0.1.7-dev.1",
+  "version": "0.1.7-dev.2",
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
@@ -44,9 +44,6 @@
     "LICENSE*",
     "scripts",
     "src",
-    "apps",
-    "!apps/horsetail/**",
-    "!apps/panini/**",
     "data/translation-lexicons/cdrama-subtitles.json",
     "test/translation-memory-tmx.test.mjs",
     "test/translation-memory-tmx-boundaries.test.mjs",
