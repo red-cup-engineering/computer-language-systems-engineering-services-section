@@ -171,3 +171,33 @@ bounded bytes, digest, UTF-8 and JSON, rejects invalid requests before reading,
 and tests coalesced reads, rejected-edition eviction and the eight-edition LRU.
 Passing these suites is source/packed functional evidence, not a frozen
 registry installation, live merchant receipt or deployment.
+
+## Complete external edition receiving
+
+`SECTION_DATA_ROOT=/path/to/operations-data pnpm run test:edition` receives the
+existing 4101-unit English–Lakota edition through the public memory export.
+The external owner supplies `course/corpus-edition.json` and
+`course/corpus-practice-full.json`; no corpus is copied into this Code package.
+The test verifies the edition's bytes, digest, content-addressed URL and counts,
+then compares every source occurrence in both directions against an independent
+record/label/witness/disposition projection. It emits cold and warm kernel timing
+observations without a hardware-dependent performance threshold.
+
+The program ships in `receivingTests` with an explicit `testRequires.env`
+requirement for `SECTION_DATA_ROOT`. The shared JSNode receiving runner reports
+`requires` when the binding is absent; that is not full-edition qualification.
+Direct `test:edition` fails without it, never falling back to the preview.
+Existing `test:consumer` remains the portable fixture suite. A complete bound
+shared receiving profile includes this edition check as well as those programs.
+Historical full-corpus XML receiving is separate evidence; this program checks
+current bidirectional retrieval, not corpus licensing, translation correctness,
+registry installation, live storage/inference, merchant settlement or deployment.
+
+The digest check establishes consistency with the supplied edition manifest, not
+its provenance or authority. The qualification caller must select the Operations
+source revision independently. This receiving run uses the original
+`causeway-services/iyappy.561.group` revision
+`7cfba58826a08fd22b14863d36cb7ae2e542feb3`; the diagnostic records the actual
+observed corpus digest `a10e477bcff17670d7c7a0320e98c5ed9a8ce3a998e4d0601d70c6d813bfe5cd`.
+Another externally bound edition is a different receiving observation, not proof
+that it is the original authoritative corpus.

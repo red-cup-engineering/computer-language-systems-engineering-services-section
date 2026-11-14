@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/computer-language-systems-engineering-services-section",
-  "version": "0.1.7-dev.3",
+  "version": "0.1.7-dev.4",
   "description": "Computer language systems engineering: grammars, parsers, and language tooling, including Panini.",
   "repository": {
     "type": "git",
@@ -53,7 +53,8 @@
     "test/episode-translation.test.mjs",
     "test/translation-effects.test.mjs",
     "test/translation-memory.test.mjs",
-    "test/stored-translation-memory.test.mjs"
+    "test/stored-translation-memory.test.mjs",
+    "test/receiving/translation-memory-edition.test.mjs"
   ],
   "license": "MIT",
   "funding": {
@@ -67,7 +68,8 @@
     "test:tmx": "node --test test/translation-memory-tmx*.test.mjs",
     "test:consumer": "node --test test/source-anchoring.test.mjs test/tag-native-source.test.mjs test/translation-memory-tmx*.test.mjs test/translation.test.mjs test/episode-translation.test.mjs test/translation-effects.test.mjs test/translation-memory.test.mjs test/stored-translation-memory.test.mjs",
     "test:translation": "node --test test/translation.test.mjs test/episode-translation.test.mjs test/translation-effects.test.mjs",
-    "test:memory": "node --test test/translation-memory.test.mjs test/stored-translation-memory.test.mjs"
+    "test:memory": "node --test test/translation-memory.test.mjs test/stored-translation-memory.test.mjs",
+    "test:edition": "node --test test/receiving/translation-memory-edition.test.mjs"
   },
   "receivingTests": [
     "test/translation-memory-tmx.test.mjs",
@@ -78,9 +80,18 @@
     "test/episode-translation.test.mjs",
     "test/translation-effects.test.mjs",
     "test/translation-memory.test.mjs",
-    "test/stored-translation-memory.test.mjs"
+    "test/stored-translation-memory.test.mjs",
+    "test/receiving/translation-memory-edition.test.mjs"
   ],
   "devDependencies": {
     "@lenticule-science/english-language-algebra": "0.1.13-dev.1"
+  },
+  "testRequires": {
+    "test/receiving/translation-memory-edition.test.mjs": {
+      "env": [
+        "SECTION_DATA_ROOT"
+      ],
+      "reason": "Receives the original externally owned complete4101-unit Operations corpus edition; no preview fallback."
+    }
   }
 }
