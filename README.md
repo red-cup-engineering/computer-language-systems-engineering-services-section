@@ -130,15 +130,22 @@ redeclared here merely to make a hoisted development graph load. Removing
 unused root declarations does not remove transitive requirements or change any
 language, parsing, translation or inference behavior.
 
+The root archive contains its own public modules, compiler, lexical data and
+receiving tests, not independent applications assembled in this repository.
+The `apps/` directory contains the Horsetail and Panini submodules and the
+separately manifested L-space application; none is a root export, executable
+or internally imported module. Their source and submodule links remain intact.
+L-space remains inline and its proper repository ownership and independent
+package receiving remain unresolved. Excluding it from this root archive is
+not an ownership transfer, retirement or qualification of that application.
+
 The existing carrier-module assay and module-request parser were applied to
-the complete published payload, including nested L-space, and original tests.
-That is static module-request evidence, not proof that every runtime path or
-installation is qualified. The packed carrier still has known observations
-for L-space dependencies declared only in its nested manifest and for the
-assay's treatment of a shipped test's English development supplier. Those
-observations remain unresolved; no nested application was removed or declared
-optional to hide them. Language-specific science remains with its existing
-owners.
+the published payload and original tests. That is static module-request
+evidence, not proof that every runtime path or installation is qualified.
+The assay still reports the shipped tagging test's English development
+supplier as a runtime dependency; that classification remains unresolved.
+The test and its declared development supplier remain unchanged. Language-
+specific science remains with its existing owners.
 
 The source lock remains unchanged and is not evidence of a native frozen
 installation for the revised manifest. Source and packed receiving tests,
