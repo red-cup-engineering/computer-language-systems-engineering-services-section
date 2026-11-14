@@ -3,9 +3,9 @@
 // communicating's articulation, settlement, parser and tag projection.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createTag} from '../scripts/tag.mjs';
+import {createTag} from '@red-cup-engineering/computer-language-systems-engineering-services-section/tag';
 import {read} from '@red-cup-engineering/communicating';
-import {rawBundle} from '../services/language-engineering-services-section/services/english-engineering-services-section/apps/english-language-algebra/src/bundle.mjs';
+import {rawBundle} from '@lenticule-science/english-language-algebra/bundle';
 
 const {tagText,bundle}=createTag(rawBundle);
 
@@ -52,4 +52,21 @@ test('shared arcs preserve the native grammar status and FOUR reading without re
  })));
  assert.ok(native.length>0);
  assert.ok(native.every(a=>a.status==='decided'&&a.value==='potential'));
+});
+
+
+test('public tagging stays synchronous and preserves semantic role frames',()=>{
+ const text='The teacher graded the exam.';
+ const tagged=tagText(text);
+ assert.equal(typeof tagged?.then,'undefined');
+ const native=read(text,bundle);
+ assert.deepEqual(tagged.sentences[0].roles,native.roles);
+ assert.deepEqual(tagged.sentences[0].cohomology,native.cohomology);
+ assert.deepEqual(tagged.sentences[0].tower,native.parse.tower);
+ assert.equal(tagged.sentences[0].roles[0].agent,'teacher');
+ assert.equal(tagged.sentences[0].roles[0].patient,'exam');
+ const api=createTag(rawBundle);
+ assert.equal(typeof api.bundle?.then,'undefined');
+ assert.ok(api.tagWordPos('teacher').includes('noun'));
+ assert.deepEqual(api.tokenize(text),['The','teacher','graded','the','exam']);
 });

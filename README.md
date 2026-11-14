@@ -29,9 +29,13 @@ nor infer factual truth, permission or interpretation authority from syntax.
 A `native-exact` binding establishes source byte correspondence only.
 
 Run `npm run test:source-projection` for dependency-free source-binding
-regressions. Run `npm run test:tag-native` in a checkout with the original
-English-language-algebra Git submodule and exact installed communicating
-dependencies to test genuine articulation→settlement→tagging end-to-end.
+regressions. Run `npm run test:tag-native` with the declared development
+English-language-algebra package and communicating supplier to test genuine
+articulation→settlement→tagging through the public `/tag` and English `/bundle`
+exports. No English Git-submodule checkout is needed. `npm run test:consumer`
+runs the shipped tag, source-binding and TMX receiving tests from the archive.
+Execution using source-provider mounts is not a frozen dependency install;
+registry issuance and native resolver qualification remain separate.
 Isolated projection tests cannot substitute for that provider-qualified
 integration or downstream receiving.
 
