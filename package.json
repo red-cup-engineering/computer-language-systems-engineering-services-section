@@ -31,7 +31,7 @@
     "@red-cup-engineering/communicating": "0.3.1",
     "@red-cup-engineering/image-authoring-computer-inference-system-engineering-services-section": "^0.2.1",
     "@red-cup-engineering/computer-engine": "^0.1.2",
-    "@red-cup-engineering/computer-web-server": "0.7.4",
+    "@red-cup-engineering/computer-web-server": "0.7.5",
     "@red-cup-engineering/computer-triplet-serialized-content-engineering-services-section": "0.2.4"
   },
   "bin": {
@@ -84,7 +84,7 @@
     "test/receiving/translation-memory-edition.test.mjs"
   ],
   "devDependencies": {
-    "@lenticule-science/english-language-algebra": "0.1.13"
+    "@lenticule-science/english-language-algebra": "0.1.14"
   },
   "testRequires": {
     "test/receiving/translation-memory-edition.test.mjs": {
