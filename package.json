@@ -51,18 +51,6 @@
     "type": "individual",
     "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
   },
-  "receivingTests": [
-    "test/translation-memory-tmx.test.mjs",
-    "test/translation-memory-tmx-boundaries.test.mjs",
-    "test/source-anchoring.test.mjs",
-    "test/tag-native-source.test.mjs",
-    "test/translation.test.mjs",
-    "test/episode-translation.test.mjs",
-    "test/translation-effects.test.mjs",
-    "test/translation-memory.test.mjs",
-    "test/stored-translation-memory.test.mjs",
-    "test/receiving/translation-memory-edition.test.mjs"
-  ],
   "devDependencies": {
     "@lenticule-science/english-language-algebra": "^0.1.14"
   },
