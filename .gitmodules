@@ -1,0 +1,24 @@
+[submodule "apps/horsetail"]
+	path = apps/horsetail
+	url = https://github.com/red-cup-engineering/horsetail.git
+	branch = main
+[submodule "apps/panini"]
+	path = apps/panini
+	url = https://github.com/red-cup-engineering/panini.git
+	branch = main
+[submodule "services/computer-language-message-runtime-systems-engineering-services-section"]
+	path = services/computer-language-message-runtime-systems-engineering-services-section
+	url = https://github.com/red-cup-engineering/computer-language-message-runtime-systems-engineering-services-section.git
+	branch = main
+[submodule "services/computer-language-learning-systems-engineering-services-section"]
+	path = services/computer-language-learning-systems-engineering-services-section
+	url = https://github.com/red-cup-engineering/computer-language-learning-systems-engineering-services-section.git
+	branch = main
+[submodule "services/language-engineering-services-section"]
+	path = services/language-engineering-services-section
+	url = https://github.com/red-cup-engineering/language-engineering-services-section.git
+	branch = main
+[submodule "services/claim-language-rendering-service"]
+	path = services/claim-language-rendering-service
+	url = https://github.com/red-cup-engineering/claim-language-rendering-service.git
+	branch = main
