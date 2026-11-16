@@ -1,4 +1,4 @@
-import { admitTranslationMemoryRequest, translateFromMemory } from './translation-memory.mjs';
+import { admitTranslationMemoryEdition, admitTranslationMemoryRequest, translateFromMemory } from './translation-memory.mjs';
 
 const cacheRegistry = new WeakMap();
 
@@ -110,7 +110,7 @@ export async function translateFromStoredMemory(body, bucket, configuration) {
         throw new Error('Corpus rows must be an array');
       }
 
-      translateFromMemory(rows, request);
+      admitTranslationMemoryEdition(rows);
 
       return rows;
     })();

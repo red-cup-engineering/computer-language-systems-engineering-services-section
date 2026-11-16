@@ -19,6 +19,9 @@
     "./stored-translation-memory": "./src/stored-translation-memory.mjs",
     "./translation-memory-tmx": "./src/translation-memory-tmx.mjs"
   },
+  "scripts": {
+    "test:translation-memory": "node --test test/translation-memory-admission.test.mjs"
+  },
   "keywords": [
     "engineering"
   ],
@@ -44,6 +47,7 @@
     "LICENSE*",
     "scripts",
     "src",
+    "test/translation-memory-admission.test.mjs",
     "data/translation-lexicons/cdrama-subtitles.json"
   ],
   "license": "MIT",

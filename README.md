@@ -201,3 +201,20 @@ source revision independently. This receiving run uses the original
 observed corpus digest `a10e477bcff17670d7c7a0320e98c5ed9a8ce3a998e4d0601d70c6d813bfe5cd`.
 Another externally bound edition is a different receiving observation, not proof
 that it is the original authoritative corpus.
+
+## Recorded translation-memory edition admission
+
+Use admitTranslationMemoryEdition(rows) from the existing translation-memory
+export to validate a recorded RDF-row snapshot without inventing a lookup
+phrase or language direction. It returns immutable row and concept counts and
+canonical language tags observed in preferred labels. That is structural
+admission, not verification of who supplied the records, a language-pair
+coverage claim, or evidence of translation skill. The original synchronous
+lookup and stored-memory transport reuse the same compiled snapshot. Supply a
+new row array for a new edition; neither the admission nor lookup edits
+recorded strings or witnesses.
+
+Run npm run test:translation-memory to exercise the native edition and
+stored-memory contract. The test is also shipped in the archive; it does not
+replace qualification against an actual externally owned edition or a real
+installed dependency closure.

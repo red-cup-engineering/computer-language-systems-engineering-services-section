@@ -63,6 +63,7 @@ function compileRows(rows) {
   const concepts = new Map();
   // key: langTagLower + '\u0000' + labelValue -> Set<conceptIri>
   const labelLookup = new Map();
+  const languageTags = new Set();
 
   for (const row of rows) {
     if (!row || typeof row !== 'object') {
@@ -84,6 +85,7 @@ function compileRows(rows) {
         throw new TypeError('prefLabel requires a language-tagged literal');
       }
       const normLang = literal(v.value, { language: v.language }).language;
+      languageTags.add(normLang);
       const labelValue = v.value;
 
       let conceptMap = concepts.get(eIri);
@@ -115,17 +117,32 @@ function compileRows(rows) {
     }
   }
 
-  return { concepts, labelLookup };
+  const edition = Object.freeze({
+    kind: 'translation-memory-edition',
+    rowCount: rows.length,
+    conceptCount: concepts.size,
+    languageTags: Object.freeze([...languageTags].sort(codeUnitSort)),
+  });
+  return { concepts, labelLookup, edition };
 }
 
-export function translateFromMemory(rows, body) {
-  const req = admitTranslationMemoryRequest(body);
-
+function compiledEdition(rows) {
   let compiled = snapshotCache.get(rows);
   if (!compiled) {
     compiled = compileRows(rows);
     snapshotCache.set(rows, compiled);
   }
+  return compiled;
+}
+
+/** Admit one recorded RDF-row snapshot without selecting a query or language pair. */
+export function admitTranslationMemoryEdition(rows) {
+  return compiledEdition(rows).edition;
+}
+
+export function translateFromMemory(rows, body) {
+  const req = admitTranslationMemoryRequest(body);
+  const compiled = compiledEdition(rows);
 
   const { concepts, labelLookup } = compiled;
   const lookupKey = JSON.stringify([req.sourceLanguage, req.text]);
