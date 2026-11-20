@@ -1,11 +1,10 @@
+import { compareText } from "@red-cup-engineering/semiotic-content-address-system";
 import { iri, isTerm, literal } from '@red-cup-engineering/computer-triplet-serialized-content-engineering-services-section/rdf-terms';
 
 const PREF_LABEL_IRI = 'http://www.w3.org/2004/02/skos/core#prefLabel';
 const snapshotCache = new WeakMap();
 
-function codeUnitSort(a, b) {
-  return a < b ? -1 : a > b ? 1 : 0;
-}
+
 
 function validateIriTermOrString(termOrString) {
   if (typeof termOrString === 'string') {
@@ -121,7 +120,7 @@ function compileRows(rows) {
     kind: 'translation-memory-edition',
     rowCount: rows.length,
     conceptCount: concepts.size,
-    languageTags: Object.freeze([...languageTags].sort(codeUnitSort)),
+    languageTags: Object.freeze([...languageTags].sort(compareText)),
   });
   return { concepts, labelLookup, edition };
 }
@@ -146,7 +145,7 @@ export function translateFromMemory(rows, body) {
 
   const { concepts, labelLookup } = compiled;
   const lookupKey = JSON.stringify([req.sourceLanguage, req.text]);
-  const matchedConceptIris = Array.from(labelLookup.get(lookupKey) || []).sort(codeUnitSort);
+  const matchedConceptIris = Array.from(labelLookup.get(lookupKey) || []).sort(compareText);
 
   let isContested = false;
   const candidates = [];
@@ -170,10 +169,10 @@ export function translateFromMemory(rows, body) {
         sourceLabels.push({
           value: val,
           language: req.sourceLanguage,
-          witnesses: Array.from(witnessSet).sort(codeUnitSort)
+          witnesses: Array.from(witnessSet).sort(compareText)
         });
       }
-      sourceLabels.sort((a, b) => codeUnitSort(a.value, b.value));
+      sourceLabels.sort((a, b) => compareText(a.value, b.value));
     }
 
     const targetLabels = [];
@@ -182,10 +181,10 @@ export function translateFromMemory(rows, body) {
         targetLabels.push({
           value: val,
           language: req.targetLanguage,
-          witnesses: Array.from(witnessSet).sort(codeUnitSort)
+          witnesses: Array.from(witnessSet).sort(compareText)
         });
       }
-      targetLabels.sort((a, b) => codeUnitSort(a.value, b.value));
+      targetLabels.sort((a, b) => compareText(a.value, b.value));
     }
 
     candidates.push({

@@ -32,7 +32,8 @@
     "@red-cup-engineering/image-authoring-computer-inference-system-engineering-services-section": "^0.2.1",
     "@red-cup-engineering/computer-engine": "^0.1.2",
     "@red-cup-engineering/computer-web-server": "^0.7.10",
-    "@red-cup-engineering/computer-triplet-serialized-content-engineering-services-section": "^0.2.4"
+    "@red-cup-engineering/computer-triplet-serialized-content-engineering-services-section": "^0.2.4",
+    "@red-cup-engineering/semiotic-content-address-system": "^0.1.7 || 0.1.8-dev.0"
   },
   "bin": {
     "compile-translation-lexicons": "./scripts/compile-translation-lexicons.mjs"
