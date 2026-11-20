@@ -9,7 +9,7 @@
 // construe→descend→fold settlement pipeline to produce tagText's
 // per-sentence parse+roles+cohomology.
 import {
-  admitCommunication,
+  validateCommunication,
   articulateCommunication,
   load,
   read,
@@ -45,7 +45,7 @@ export function createTag(rawBundle, { includeRoleBy = false } = {}) {
    * punctuation, or, for a bundle with its own dictionary-based `segment`
    * hook, that hook instead — no separate strip-then-split step either way. */
   function tokenize(text) {
-    return articulateCommunication(admitCommunication(text), bundle).spans
+    return articulateCommunication(validateCommunication(text), bundle).spans
       .filter((s) => s.tier === "word")
       .map((s) => s.text);
   }
@@ -65,7 +65,7 @@ export function createTag(rawBundle, { includeRoleBy = false } = {}) {
   function tagText(text) {
     // The source belongs to the actual communicating articulation. Neither a
     // downstream editor nor this wrapper may guess coordinates from word text.
-    const articulatedSpans = articulateCommunication(admitCommunication(text), bundle).spans;
+    const articulatedSpans = articulateCommunication(validateCommunication(text), bundle).spans;
     const sentences = settle(text, bundle).readings.map(({ span: sentenceSpan }) => {
       const reading = read(sentenceSpan.text, bundle);
       const result = reading.parse;

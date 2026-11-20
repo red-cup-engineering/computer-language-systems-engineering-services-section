@@ -155,8 +155,8 @@ const reviewPath = (seriesId, token) => `series/${seriesId}/reviews/${encodeURIC
 async function reviewAt(bucket, seriesId, reference) {
   const object = await bucket.get(reviewPath(seriesId, reference.token));
   if (!object) throw new Error(`review record is unavailable: ${reference.id}`);
-  const admitted = admitJsonSemanticContent({ bytes: new Uint8Array(await object.arrayBuffer()), token: reference.token, objectKind: REVIEW_KIND });
-  const record = admitted.value;
+  const validated = admitJsonSemanticContent({ bytes: new Uint8Array(await object.arrayBuffer()), token: reference.token, objectKind: REVIEW_KIND });
+  const record = validated.value;
   if (record.id !== reference.id || record.episodeId !== reference.episodeId || record.requestDigest !== reference.requestDigest) throw new Error(`review reference is inconsistent: ${reference.id}`);
   return record;
 }
