@@ -195,21 +195,21 @@ export function translateFromMemory(rows, body) {
     });
   }
 
-  let decision;
+  let disposition;
   if (isContested) {
-    decision = 'contested';
+    disposition = 'contested';
   } else if (candidates.length > 1) {
-    decision = 'ambiguous';
+    disposition = 'ambiguous';
   } else if (candidates.length === 0 || candidates.some(c => c.targetLabels.length === 0 || c.sourceLabels.length === 0)) {
-    decision = 'unresolved';
+    disposition = 'unresolved';
   } else {
-    decision = 'resolved';
+    disposition = 'resolved';
   }
 
   return {
     method: 'translation-memory',
     inferenceUsed: false,
-    disposition: decision,
+    disposition,
     sourceLanguage: req.sourceLanguage,
     targetLanguage: req.targetLanguage,
     candidates

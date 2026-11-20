@@ -69,14 +69,14 @@ const typeWitness = (check) => Object.freeze({
 });
 
 /** The default admission: human witnesses count everywhere; machine witnesses only where a locale's policy admits them. */
-export function validation(policy = {}) {
+export function admission(policy = {}) {
   return (witness, locale) => witness?.kind !== "machine" || policy[locale]?.machine === true;
 }
 
 const inTime = (at) => (witness) => at === undefined || witness.at === undefined || String(witness.at) <= String(at);
 
 /** A unit's legs with what each needs: locale, address, claim, and its admitted, time-sliced witnesses. */
-function prepare(unit, { admit: validate, at }) {
+function prepare(unit, { admit, at }) {
   const sourceLocale = languageOf(unit.source.token);
   if (sourceLocale === undefined) throw new TypeError("l-space: a unit's source token must be language-tagged text");
   const type = unit.type ?? (unit.check ? null : signatureOf(textOf(unit.source.token)));
@@ -87,7 +87,7 @@ function prepare(unit, { admit: validate, at }) {
     const locale = languageOf(leg.token);
     if (locale === undefined) throw new TypeError(`l-space: leg of ${unit.key} is not language-tagged text`);
     const evidence = leg.evidence ?? {};
-    const keep = (witness) => validate(witness, locale) && inTime(at)(witness);
+    const keep = (witness) => admit(witness, locale) && inTime(at)(witness);
     return Object.freeze({
       locale, token: leg.token, address: tokenAddress(leg.token),
       claim: Object.freeze({ claim: unit.key, source: evidence.source ?? null }),
@@ -162,7 +162,7 @@ function chromaticReading(prepared) {
 // — A8 cone over SignCell cells —
 
 const RANK = Object.freeze({ true: 0, neither: 1, both: 2, false: 3 });
-const DECISION = Object.freeze({ true: "coherent", neither: "unproven", both: "contradicted", false: "contradicted" });
+const DISPOSITION = Object.freeze({ true: "coherent", neither: "unproven", both: "contradicted", false: "contradicted" });
 const WORST = ["contradicted", "open", "unproven", "coherent"];
 
 /** The cone: per fiber, the leg cells whose predicate is the apex claim, their readings, the leg chosen, and the cone's disposition. */
@@ -198,10 +198,10 @@ function coneReading(prepared, required) {
   }
   const legs = Object.fromEntries(required.map((locale) => {
     const leg = chosen.get(locale);
-    return [locale, Object.freeze(leg ? { ...leg, disposition: DECISION[leg.reading] } : { disposition: "open" })];
+    return [locale, Object.freeze(leg ? { ...leg, disposition: DISPOSITION[leg.reading] } : { disposition: "open" })];
   }));
-  const decision = WORST.find((name) => Object.values(legs).some((leg) => leg.disposition === name)) ?? "coherent";
-  return Object.freeze({ apex: prepared.claim, legs: Object.freeze(legs), disposition: decision, cells });
+  const disposition = WORST.find((name) => Object.values(legs).some((leg) => leg.disposition === name)) ?? "coherent";
+  return Object.freeze({ apex: prepared.claim, legs: Object.freeze(legs), disposition, cells });
 }
 
 const lastAt = (leg) => [...leg.for, ...leg.against].map((witness) => String(witness.at ?? "")).sort().at(-1) ?? "";
@@ -266,8 +266,8 @@ function sheafReading(prepared, required, values, edges) {
  * (its past light cone); `graph` declares the fiber graph instead of deriving
  * it from translation provenance.
  */
-export function readUnit(unit, { required = [], policy, admit: validate = validation(policy), at, graph } = {}) {
-  const prepared = prepare(unit, { admit: validate, at });
+export function readUnit(unit, { required = [], policy, admit = admission(policy), at, graph } = {}) {
+  const prepared = prepare(unit, { admit, at });
   const fibers = [...new Set([prepared.sourceLocale, ...required.map(languageTag)])];
   const chl = chlReading(prepared);
   const causal = causalReading(prepared);

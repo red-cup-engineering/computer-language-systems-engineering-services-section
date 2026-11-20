@@ -11,7 +11,7 @@
  */
 import { langString, languageTag } from "@red-cup-engineering/typed-content/language";
 import { parseArb, serializeArb } from "./arb.mjs";
-import { validation, coincidence, readUnit, tokenAddress } from "./geometry.mjs";
+import { admission, coincidence, readUnit, tokenAddress } from "./geometry.mjs";
 import { declaredSignature, signatureOf, typeCheck } from "./messages.mjs";
 import { fallbackChain } from "./locale.mjs";
 
@@ -44,8 +44,8 @@ export function lSpace({ source, targets = [] }) {
 
 /** Read every unit of an L-space: required fibers default to every target locale. */
 export function readSpace(space, { required = space.locales, policy, at } = {}) {
-  const validate = validation(policy);
-  return Object.freeze(space.units.map((unit) => readUnit(unit, { required, admit: validate, at })));
+  const admit = admission(policy);
+  return Object.freeze(space.units.map((unit) => readUnit(unit, { required, admit, at })));
 }
 
 /** Whether a read leg may be served: current, well typed, told for and not against. */
@@ -99,15 +99,15 @@ export function report(space, { policy, at } = {}) {
     for (const entry of resolved.values()) counts[entry.status === "translated" ? "translated" : entry.reason] += 1;
     return [locale, Object.freeze({ ...counts, total: resolved.size, coverage: resolved.size ? counts.translated / resolved.size : 1 })];
   }));
-  const records = readings.map(coincidence);
+  const receipts = readings.map(coincidence);
   return Object.freeze({
     sourceLocale: space.sourceLocale,
     locales: Object.freeze(locales),
     coherent: readings.filter((reading) => reading.cone.disposition === "coherent").length,
     units: readings.length,
     energy: readings.reduce((sum, reading) => sum + reading.sheaf.energy, 0),
-    counterexamples: Object.freeze(records.filter((record) => record.counterexample).map((record) => record.key)),
-    agree: records.every((record) => record.agree || !record.hypotheses.connected),
+    counterexamples: Object.freeze(receipts.filter((receipt) => receipt.counterexample).map((receipt) => receipt.key)),
+    agree: receipts.every((receipt) => receipt.agree || !receipt.hypotheses.connected),
   });
 }
 

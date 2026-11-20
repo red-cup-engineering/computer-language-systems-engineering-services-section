@@ -19,17 +19,17 @@ const spanIsSourceExact = (source, span) =>
 export function anchorNativeReading({ sourceText, sentenceSpan, articulatedSpans, parsedWords }) {
   if (typeof sourceText !== 'string' || !Array.isArray(articulatedSpans) ||
       !Array.isArray(parsedWords)) throw new TypeError('source, articulation and parsed words required');
-  const omitted = (sourceSpan, reason) => ({ sourceSpan,
+  const withheld = (sourceSpan, reason) => ({ sourceSpan,
     wordSourceSpans: parsedWords.map(() => null),
     sourceBinding: 'withheld', sourceBindingReason: reason });
   if (!spanIsSourceExact(sourceText, sentenceSpan))
-    return omitted(null, 'SENTENCE_NOT_SOURCE_EXACT');
+    return withheld(null, 'SENTENCE_NOT_SOURCE_EXACT');
   const sourceSpan = [sentenceSpan.start, sentenceSpan.end];
   const rawWords = articulatedSpans.filter(span => span?.tier === 'word' &&
     Number.isSafeInteger(span.start) && Number.isSafeInteger(span.end) &&
     span.start >= sentenceSpan.start && span.end <= sentenceSpan.end);
   if (rawWords.length !== parsedWords.length)
-    return omitted(sourceSpan, 'WORD_COUNT_MISMATCH');
+    return withheld(sourceSpan, 'WORD_COUNT_MISMATCH');
   let previousEnd = sentenceSpan.start;
   const spans = [];
   for (let i = 0; i < parsedWords.length; i++) {
@@ -37,7 +37,7 @@ export function anchorNativeReading({ sourceText, sentenceSpan, articulatedSpans
     if (!spanIsSourceExact(sourceText, span) || span.start < previousEnd ||
         span.end > sentenceSpan.end || typeof parsedWords[i]?.text !== 'string' ||
         span.text !== parsedWords[i].text)
-      return omitted(sourceSpan, 'WORD_SOURCE_MISMATCH');
+      return withheld(sourceSpan, 'WORD_SOURCE_MISMATCH');
     spans.push([span.start, span.end]);
     previousEnd = span.end;
   }
