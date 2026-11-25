@@ -1,4 +1,4 @@
-import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
+import { sha256Hex, semanticHex } from "@red-cup-engineering/semiotic-content-address-system";
 import { parseSubtitles, serializeSubtitles, measureSubtitleCue } from "@red-cup-engineering/computer-text-content-engineering-services-section/subtitles";
 import { MANDARIN_TRANSLATION_MODULES, translateNumberedBatch, wrapSubtitleText } from "@red-cup-engineering/computer-language-systems-engineering-services-section/translation";
 import { segmentEvidence } from "@red-cup-engineering/computer-language-systems-engineering-services-section/translation-evidence";
@@ -229,7 +229,7 @@ async function translateEpisode(body, env, direction, options) {
   const seriesKey = seriesKeyOf(body);
   const series = seriesKey === undefined ? await prepareSeries(body.approvedTerms ?? []) : await loadSeries(bucket, seriesKey);
   const episodeId = body.episodeId ?? crypto.randomUUID();
-  const sourceDigest = sha256Hex(JSON.stringify({ direction, document, productionContext: body.productionContext ?? "" }));
+  const sourceDigest = semanticHex({ direction, document, productionContext: body.productionContext ?? "" });
   const path = `series/${series.seriesId}/episodes/${episodeId}.json`;
   const existing = await bucket.get(path);
   if (existing) {
@@ -332,7 +332,7 @@ export async function reviewCdramaEpisode(body, env) {
   const episode = await episodeObject.json();
   if (corrections.some((item) => item.cueIndex >= episode.document.cues.length)) throw new RangeError("correction names a cue outside the episode");
   const reviewId = body.reviewId ?? crypto.randomUUID();
-  const requestDigest = sha256Hex(JSON.stringify({ episodeId: body.episodeId, corrections, terms, approve: body.approve === true }));
+  const requestDigest = semanticHex({ episodeId: body.episodeId, corrections, terms, approve: body.approve === true });
   const record = { id: reviewId, requestDigest, episodeId: body.episodeId, recordedAt: now(), corrections: corrections.map(({ cueIndex, target }) => ({ cueIndex, target: target.trim() })), terms: terms.map(({ direction, source, target, replaces }) => ({ direction, source: source.trim(), target: target.trim(), ...(replaces === undefined ? {} : { replaces }) })), approve: body.approve === true };
   const identity = reviewIdentity(record);
   const reference = { id: reviewId, episodeId: body.episodeId, requestDigest, token: identity.token, recordedAt: record.recordedAt };
