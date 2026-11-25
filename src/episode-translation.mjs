@@ -1,3 +1,4 @@
+import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
 import { parseSubtitles, serializeSubtitles, measureSubtitleCue } from "@red-cup-engineering/computer-text-content-engineering-services-section/subtitles";
 import { MANDARIN_TRANSLATION_MODULES, translateNumberedBatch, wrapSubtitleText } from "@red-cup-engineering/computer-language-systems-engineering-services-section/translation";
 import { segmentEvidence } from "@red-cup-engineering/computer-language-systems-engineering-services-section/translation-evidence";
@@ -20,7 +21,7 @@ const DIRECTIONS = Object.freeze({
 
 const encode = (value) => new TextEncoder().encode(value);
 const hex = (bytes) => [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-async function sha256(value) { return hex(await crypto.subtle.digest("SHA-256", encode(value))); }
+async function sha256(value) { return sha256Hex(value); }
 const json = (value) => `${JSON.stringify(value)}\n`;
 const now = () => new Date().toISOString();
 

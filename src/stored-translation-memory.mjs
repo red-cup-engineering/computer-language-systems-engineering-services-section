@@ -1,3 +1,4 @@
+import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
 import { admitTranslationMemoryEdition, admitTranslationMemoryRequest, translateFromMemory } from './translation-memory.mjs';
 
 const cacheRegistry = new WeakMap();
@@ -90,8 +91,7 @@ export async function translateFromStoredMemory(body, bucket, configuration) {
         throw new Error('Invalid arrayBuffer read');
       }
 
-      const digestBuf = await crypto.subtle.digest('SHA-256', buf);
-      const computedSha256 = toHex(digestBuf);
+      const computedSha256 = sha256Hex(new Uint8Array(buf));
       if (computedSha256 !== safeConfig.sha256) {
         throw new Error('SHA-256 digest mismatch');
       }
