@@ -21,7 +21,6 @@ const DIRECTIONS = Object.freeze({
 
 const encode = (value) => new TextEncoder().encode(value);
 const hex = (bytes) => [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-async function sha256(value) { return sha256Hex(value); }
 const json = (value) => `${JSON.stringify(value)}\n`;
 const now = () => new Date().toISOString();
 
@@ -210,7 +209,7 @@ async function materialize(bucket, episode, state, includeKey, candidate) {
 }
 
 async function loadSeries(bucket, seriesKey) {
-  const seriesId = await sha256(seriesKey);
+  const seriesId = sha256Hex(seriesKey);
   const object = await bucket.get(`series/${seriesId}/state.json`);
   if (!object) throw new RangeError("unknown seriesKey");
   return { seriesId, object, state: await object.json() };
@@ -219,7 +218,7 @@ async function loadSeries(bucket, seriesKey) {
 async function prepareSeries(approvedTerms = []) {
   const bytes = crypto.getRandomValues(new Uint8Array(32));
   const seriesKey = btoa(String.fromCharCode(...bytes)).replace(/\+/gu, "-").replace(/\//gu, "_").replace(/=+$/u, "");
-  const seriesId = await sha256(seriesKey);
+  const seriesId = sha256Hex(seriesKey);
   const state = { kind: "cdrama.series/v1", seriesId, createdAt: now(), revision: 0, terms: termsAfter([], approvedTerms), reviews: [] };
   return { seriesId, seriesKey, state };
 }
@@ -230,7 +229,7 @@ async function translateEpisode(body, env, direction, options) {
   const seriesKey = seriesKeyOf(body);
   const series = seriesKey === undefined ? await prepareSeries(body.approvedTerms ?? []) : await loadSeries(bucket, seriesKey);
   const episodeId = body.episodeId ?? crypto.randomUUID();
-  const sourceDigest = await sha256(JSON.stringify({ direction, document, productionContext: body.productionContext ?? "" }));
+  const sourceDigest = sha256Hex(JSON.stringify({ direction, document, productionContext: body.productionContext ?? "" }));
   const path = `series/${series.seriesId}/episodes/${episodeId}.json`;
   const existing = await bucket.get(path);
   if (existing) {
@@ -327,13 +326,13 @@ export async function readCdramaEpisode(body, env) {
 export async function reviewCdramaEpisode(body, env) {
   const { corrections, terms } = admitCdramaReview(body);
   const bucket = bucketOf(env);
-  const seriesId = await sha256(body.seriesKey);
+  const seriesId = sha256Hex(body.seriesKey);
   const episodeObject = await bucket.get(`series/${seriesId}/episodes/${body.episodeId}.json`);
   if (!episodeObject) throw new RangeError("unknown episodeId in series");
   const episode = await episodeObject.json();
   if (corrections.some((item) => item.cueIndex >= episode.document.cues.length)) throw new RangeError("correction names a cue outside the episode");
   const reviewId = body.reviewId ?? crypto.randomUUID();
-  const requestDigest = await sha256(JSON.stringify({ episodeId: body.episodeId, corrections, terms, approve: body.approve === true }));
+  const requestDigest = sha256Hex(JSON.stringify({ episodeId: body.episodeId, corrections, terms, approve: body.approve === true }));
   const record = { id: reviewId, requestDigest, episodeId: body.episodeId, recordedAt: now(), corrections: corrections.map(({ cueIndex, target }) => ({ cueIndex, target: target.trim() })), terms: terms.map(({ direction, source, target, replaces }) => ({ direction, source: source.trim(), target: target.trim(), ...(replaces === undefined ? {} : { replaces }) })), approve: body.approve === true };
   const identity = reviewIdentity(record);
   const reference = { id: reviewId, episodeId: body.episodeId, requestDigest, token: identity.token, recordedAt: record.recordedAt };
